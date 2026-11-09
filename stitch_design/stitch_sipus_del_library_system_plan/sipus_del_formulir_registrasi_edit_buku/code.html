@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>SIPUS-Del — Katalog Perpustakaan Institut Teknologi Del</title>
+<!-- Fonts: Plus Jakarta Sans & JetBrains Mono for numbers/codes -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: #FAF8F5;
+        color: #26211E;
+      }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #E2DBD0; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #C8BFB2; }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            // Warm & Classy Academic Palette
+            ivory: {
+              50: "#FCFBF9",
+              100: "#FAF8F5",
+              200: "#F3EFE8",
+              300: "#EAE3D6",
+              400: "#DDD4C4",
+            },
+            del: {
+              midnight: "#1E1A29",     // Elegant deep indigo-espresso for classy headers
+              deep: "#2B213A",         // Soft royal purple-slate
+              plum: "#483660",         // Refined signature purple
+              accent: "#5C467A",       // Soft Del Purple
+              light: "#F5F1FA",        // Del delicate tint
+              border: "#E9E2F2"
+            },
+            sand: {
+              50: "#FAF7F2",
+              100: "#F4EFE6",
+              200: "#EBE3D7",
+              300: "#DDD2C2",
+              border: "#E8E2D8",
+              line: "#ECE7DE"
+            },
+            amberClassy: {
+              light: "#FDF8F0",
+              border: "#F3E1C8",
+              text: "#9A5B18",
+              badge: "#F8ECDC",
+              accent: "#B4681E"
+            },
+            sage: {
+              light: "#F2F7F4",
+              border: "#CCE3D6",
+              text: "#2D5F43",
+              badge: "#E2EFE7"
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'soft-card': '0 1px 3px rgba(30, 26, 41, 0.04), 0 6px 16px -4px rgba(30, 26, 41, 0.03)',
+            'subtle': '0 1px 2px rgba(0, 0, 0, 0.04)',
+            'elevation': '0 12px 32px -8px rgba(33, 27, 46, 0.08)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#FAF8F5] text-[#24201D] font-sans antialiased selection:bg-[#EAE2F3] selection:text-[#2B213A]">
+<!-- Top Navigation Header: Sophisticated Deep Indigo-Espresso with warm glow -->
+<header class="fixed top-0 w-full z-50 bg-[#1E1A28] border-b border-[#2F293F] text-white shadow-subtle">
+<div class="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+<!-- Brand & University Identity -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3.5 group" href="#">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3B2C52] to-[#251F33] border border-white/10 flex items-center justify-center text-[#F2C58F] shadow-inner group-hover:border-white/20 transition-all">
+<span class="material-symbols-outlined text-[23px]">local_library</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[17px] tracking-tight text-white group-hover:text-[#F7E7CE] transition-colors">SIPUS-Del</span>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white/80 font-mono tracking-wider font-semibold border border-white/5">v2.4</span>
+</div>
+<span class="text-[11px] font-medium tracking-wide text-white/60">Perpustakaan Institut Teknologi Del</span>
+</div>
+</a>
+<!-- Main Navigation Pills -->
+<nav class="hidden lg:flex items-center gap-1.5 pl-2 border-l border-white/10">
+<a class="px-3.5 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium text-[13px] tracking-tight transition-colors" data-path="katalog-buku" href="#">
+<span class="material-symbols-outlined text-[17px] text-[#E7C186]">menu_book</span>
+<span>Katalog Buku</span>
+</a>
+<a class="px-3.5 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium text-[13px] tracking-tight transition-colors" data-path="kelola-kategori" href="#">
+            Kelola Kategori
+          </a>
+<a class="px-3.5 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium text-[13px] tracking-tight transition-colors" data-path="tambah-buku-baru" href="#">
+            Tambah Buku Baru
+          </a>
+<a class="px-3.5 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium text-[13px] tracking-tight transition-colors flex items-center gap-2" data-path="peminjaman-dan-layanan" href="#">
+<span>Peminjaman &amp; Layanan</span>
+<span class="px-1.5 py-0.5 rounded bg-[#C07A28]/25 text-[#F2C58F] font-mono text-[10px] font-bold uppercase tracking-wider border border-[#C07A28]/40">Aktif</span>
+</a>
+</nav>
+</div>
+<!-- Header Tools & Librarian Profile -->
+<div class="flex items-center gap-4">
+<!-- Quick Search Trigger -->
+<div class="hidden md:flex items-center bg-white/5 hover:bg-white/8 border border-white/10 rounded-lg px-3 py-1.5 transition-all text-white/60 focus-within:border-white/25 focus-within:text-white">
+<span class="material-symbols-outlined text-[18px] text-white/50 mr-2">search</span>
+<span class="text-[13px] font-normal tracking-wide text-white/50 pr-4">Cari judul, ISBN, subjek...</span>
+<kbd class="font-mono text-[11px] px-1.5 py-0.5 rounded bg-white/10 text-white/70 border border-white/10">/</kbd>
+</div>
+<!-- Notification -->
+<button class="relative p-2 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors" title="Notifikasi Baru">
+<span class="material-symbols-outlined text-[21px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#E88C30] ring-2 ring-[#1E1A28]"></span>
+</button>
+<!-- Divider -->
+<div class="h-6 w-[1px] bg-white/10 hidden sm:block"></div>
+<!-- Librarian User Tag -->
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#3F2F59] to-[#5C4580] border border-white/15 flex items-center justify-center text-white/90 text-[13px] font-semibold">
+            P
+          </div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-[12px] font-semibold text-white leading-tight">Pustakawan Del</span>
+<span class="font-mono text-[10px] text-white/50 tracking-wider">ID #DEL-LIB-04</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="w-full pt-20 pb-16 bg-[#FAF8F5] min-h-[calc(100vh-14rem)]"><div class="flex flex-col w-full">
+<div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+<!-- Top Context & Breadcrumb Navigation -->
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<nav class="flex items-center space-x-2 text-on-surface-variant font-label-md text-label-md">
+<a class="hover:text-primary transition-colors flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-[16px]">roofing</span>
+<span>Beranda</span>
+</a>
+<span class="text-outline-variant font-body-sm text-body-sm">/</span>
+<a class="hover:text-primary transition-colors" href="#">Katalog Buku</a>
+<span class="text-outline-variant font-body-sm text-body-sm">/</span>
+<span class="text-primary font-label-md text-label-md bg-surface-container-high px-2.5 py-1 rounded-full">
+          Tambah Buku Baru
+        </span>
+</nav>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-mono text-body-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Formulir Monograf Aktif
+        </span>
+<div class="h-4 w-px bg-surface-variant hidden sm:block"></div>
+<span class="text-on-surface-variant font-mono text-body-sm hidden sm:inline">
+          Ref ID: <span class="font-semibold text-primary">#BIB-NEW-2025</span>
+</span>
+</div>
+</div>
+<!-- Editorial Header Section (Classy Academic Impact) -->
+<div class="relative bg-surface-container-low rounded-xl p-6 sm:p-10 shadow-sm overflow-hidden">
+<div class="relative z-10 max-w-3xl space-y-2">
+<div class="inline-flex items-center gap-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[15px]">edit_note</span>
+          Sirkulasi &amp; Pengatalogan Terpadu Del
+        </div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">
+          Registrasi Bibliografi &amp; Eksemplar Buku
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Lengkapi metadata monograf akademik, kode ISBN unik, dan alokasi rak fisik perpustakaan Institut Teknologi Del guna mendukung penelusuran katalog OPAC presisi.
+        </p>
+</div>
+<!-- Subtle Scholarly Book SVG Illustration in Header Background -->
+<div class="absolute -right-8 -bottom-8 opacity-10 pointer-events-none hidden lg:block text-primary">
+<svg fill="none" height="240" viewbox="0 0 240 200" width="280" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 160C50 140 90 140 120 160C150 140 190 140 220 160V40C190 20 150 20 120 40C90 20 50 20 20 40V160Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<path d="M120 40V160" stroke="currentColor" stroke-linecap="round" stroke-width="4"></path>
+<path d="M35 65C60 52 90 52 105 60" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M35 90C60 77 90 77 105 85" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M35 115C60 102 90 102 105 110" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M135 60C150 52 180 52 205 65" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M135 85C150 77 180 77 205 90" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+</svg>
+</div>
+</div>
+<!-- Main Grid: 2-Column Bespoke Editorial Layout (9 cols Form vs 3 cols Aside) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Primary Form Container (Col 1-8 / 1-9) -->
+<div class="lg:col-span-8 flex flex-col space-y-6">
+<!-- Server-side Validation Notice Banner -->
+<div class="bg-surface-container-high rounded-xl p-5 shadow-sm flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">policy</span>
+</div>
+<div class="space-y-1.5 min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<h2 class="font-title-md text-title-md text-on-surface">Ketentuan Validasi Data Bibliografi</h2>
+<span class="font-mono text-body-sm text-secondary bg-surface-container-lowest px-2 py-0.5 rounded">Server-side Guard</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-normal">
+              Pastikan keselarasan data monograf sebelum menyimpan:
+            </p>
+<ul class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 font-body-sm text-body-sm text-on-surface">
+<li class="flex items-center gap-1.5 bg-surface-container-lowest px-2.5 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>ISBN-13 wajib unik</span>
+</li>
+<li class="flex items-center gap-1.5 bg-surface-container-lowest px-2.5 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>Judul min. 5 karakter</span>
+</li>
+<li class="flex items-center gap-1.5 bg-surface-container-lowest px-2.5 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>Alokasi stok ≥ 0</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Main Form Body Card -->
+<form action="#" class="bg-surface-container-lowest rounded-xl p-6 sm:p-8 shadow-sm space-y-10" id="bookForm" method="POST">
+<!-- Mock Blade Hidden Directives Visual Indicator -->
+<div class="flex items-center justify-between bg-surface-container-low px-4 py-2 rounded-lg">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">token</span>
+<span class="font-mono text-body-sm text-on-surface-variant">Directive Handlers:</span>
+<code class="font-mono text-body-sm text-primary font-semibold">@csrf</code>
+<span class="text-outline-variant font-mono text-body-sm">•</span>
+<code class="font-mono text-body-sm text-on-surface-variant">@method('POST' | 'PUT')</code>
+</div>
+<span class="font-mono text-body-sm text-secondary bg-surface-container-highest px-2 py-0.5 rounded">Action: Form::Monograph</span>
+</div>
+<!-- ================= SECTION 1: Identifikasi Utama ================= -->
+<div class="space-y-6">
+<div class="flex items-center justify-between pb-3 bg-gradient-to-r from-surface-container-highest via-transparent to-transparent h-px w-full"></div>
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-mono text-body-sm text-secondary font-semibold uppercase tracking-wider">Bagian 01</span>
+<h3 class="font-headline-sm text-headline-sm text-primary tracking-tight">Identifikasi Utama Monograf</h3>
+</div>
+<span class="text-on-surface-variant font-body-sm text-body-sm hidden sm:inline">* Kolom primer wajib diisi</span>
+</div>
+<div class="space-y-5">
+<!-- ISBN Field -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="isbn">
+<span>Nomor Standar Buku Internasional (ISBN-13)</span>
+<span class="text-error">*</span>
+</label>
+<span class="font-mono text-body-sm text-on-surface-variant">13 Karakter Angka</span>
+</div>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">barcode_scanner</span>
+</div>
+<input class="block w-full pl-11 pr-24 py-3 bg-surface-container-low text-primary font-mono text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="isbn" maxlength="13" name="isbn" placeholder="9786022620000" required="" type="text" value="9786022628421"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center gap-1.5 pointer-events-none">
+<span class="font-mono text-body-sm text-tertiary font-medium bg-surface-container-highest px-2 py-0.5 rounded" id="isbnFormatBadge">
+                      VALID
+                    </span>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<p class="font-body-sm text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                    Format ISBN-13 standar tanpa spasi atau strip pemisah.
+                  </p>
+<span class="font-mono text-body-sm text-on-surface-variant" id="isbnCharCount">13/13</span>
+</div>
+<!-- Example Blade Error Representation -->
+<div class="hidden flex items-center gap-1.5 text-error font-body-sm text-body-sm bg-error-container/30 px-3 py-2 rounded-lg" id="isbnErrorNotice">
+<span class="material-symbols-outlined text-[16px]">error</span>
+<span>@error('isbn') — Format ISBN harus tepat 13 digit angka unik terdaftar.</span>
+</div>
+</div>
+<!-- Judul Buku Field -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="judul">
+<span>Judul Lengkap Buku &amp; Subjudul</span>
+<span class="text-error">*</span>
+</label>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Minimal 5 Karakter</span>
+</div>
+<div class="relative">
+<textarea class="block w-full p-3.5 bg-surface-container-low text-primary font-title-lg text-title-lg rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none" id="judul" name="judul" placeholder="Masukkan judul buku beserta monograf akademik..." required="" rows="2">Matematika Diskrit dan Penerapannya pada Ilmu Komputer</textarea>
+</div>
+<div class="flex items-center justify-between">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Sertakan edisi cetakan jika merupakan revisi kurikulum (contoh: Edisi Ke-6 Revisi).
+                  </p>
+<div class="font-mono text-body-sm" id="titleCounterContainer">
+<span class="text-secondary font-semibold" id="titleCounter">53</span>
+<span class="text-on-surface-variant"> karakter</span>
+</div>
+</div>
+</div>
+<!-- Dropdown Kategori Relasional -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="kategori_id">
+<span>Kategori / Rumpun Keilmuan</span>
+<span class="text-error">*</span>
+</label>
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary hover:underline" href="#">
+<span class="material-symbols-outlined text-[15px]">add_circle</span>
+<span>+ Tambah Kategori Baru</span>
+</a>
+</div>
+<div class="relative">
+<select class="block w-full pl-3.5 pr-10 py-3 bg-surface-container-low text-primary font-body-md text-body-md rounded-lg appearance-none focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all cursor-pointer" id="kategori_id" name="kategori_id" required="">
+<option disabled="" value="">-- Pilih Kategori Utama ($kategoris) --</option>
+<option selected="" value="1">Informatika &amp; Ilmu Komputer (DDC 004 - 006)</option>
+<option value="2">Teknik Komputer &amp; Jaringan Sistem (DDC 621.39)</option>
+<option value="3">Sistem Informasi &amp; Manajemen Data (DDC 025.04)</option>
+<option value="4">Sains Dasar &amp; Matematika Terapan (DDC 510)</option>
+<option value="5">Teknologi Rekayasa Perangkat Lunak (DDC 005.1)</option>
+<option value="6">Bioteknologi &amp; Sains Terapan (DDC 660.6)</option>
+<option value="7">Kecerdasan Buatan &amp; Robotika (DDC 006.3)</option>
+<option value="8">Bahasa &amp; Literasi Komunikasi Ilmiah (DDC 400)</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">unfold_more</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Kategori akan memetakan monograf ke dalam taksonomi rak fisik dan OPAC daring.
+                </p>
+</div>
+</div>
+</div>
+<!-- ================= SECTION 2: Metadata Kepengarangan & Publikasi ================= -->
+<div class="space-y-6 pt-2">
+<div class="flex items-center justify-between pb-3 bg-gradient-to-r from-surface-container-highest via-transparent to-transparent h-px w-full"></div>
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-mono text-body-sm text-secondary font-semibold uppercase tracking-wider">Bagian 02</span>
+<h3 class="font-headline-sm text-headline-sm text-primary tracking-tight">Metadata Kepengarangan &amp; Publikasi</h3>
+</div>
+<span class="text-on-surface-variant font-body-sm text-body-sm hidden sm:inline">2 Kolom Klasifikasi</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Penulis Field -->
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="penulis">
+<span>Nama Penulis / Pengarang</span>
+<span class="text-error">*</span>
+</label>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[19px]">person_edit</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 bg-surface-container-low text-primary font-body-md text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="penulis" name="penulis" placeholder="Contoh: Rinaldi Munir" required="" type="text" value="Rinaldi Munir, M.T."/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pisahkan koma jika terdapat beberapa kontributor.</p>
+</div>
+<!-- Penerbit Field -->
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="penerbit">
+<span>Penerbit / Publisher House</span>
+<span class="text-error">*</span>
+</label>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[19px]">apartment</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 bg-surface-container-low text-primary font-body-md text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="penerbit" name="penerbit" placeholder="Contoh: Penerbit Informatika Bandung" required="" type="text" value="Penerbit Informatika Bandung"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cantumkan nama entitas penerbit resmi monograf.</p>
+</div>
+<!-- Tahun Terbit Field -->
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="tahun_terbit">
+<span>Tahun Publikasi</span>
+<span class="text-error">*</span>
+</label>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[19px]">calendar_month</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 bg-surface-container-low text-primary font-mono text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="tahun_terbit" max="2026" min="1950" name="tahun_terbit" required="" type="number" value="2024"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Rentang validasi tahun monograf: 1950 – 2026.</p>
+</div>
+<!-- Alokasi Stok Awal (Stepper Input) -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="stok">
+<span>Alokasi Stok Awal (Eksemplar)</span>
+<span class="text-error">*</span>
+</label>
+<span class="font-mono text-body-sm text-tertiary font-semibold">Min: 0 Unit</span>
+</div>
+<div class="flex items-center bg-surface-container-low rounded-lg p-1 shadow-sm">
+<button aria-label="Kurangi Stok" class="w-9 h-9 rounded bg-surface-container-lowest flex items-center justify-center text-primary hover:bg-surface-container-highest transition-colors shadow-sm" id="btnDecStok" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-full text-center bg-transparent text-primary font-mono text-title-md font-bold focus:outline-none" id="stok" max="999" min="0" name="stok" required="" type="number" value="4"/>
+<button aria-label="Tambah Stok" class="w-9 h-9 rounded bg-surface-container-lowest flex items-center justify-center text-primary hover:bg-surface-container-highest transition-colors shadow-sm" id="btnIncStok" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Jumlah eksemplar fisik yang siap dipinjamkan.</p>
+</div>
+<!-- Lokasi Rak / Klasifikasi DDC (Spans full grid row on medium+) -->
+<div class="space-y-1.5 md:col-span-2">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="lokasi_rak">
+<span>Lokasi Rak Fisik / Nomor Klasifikasi DDC Del</span>
+<span class="text-error">*</span>
+</label>
+<span class="font-mono text-body-sm text-on-surface-variant">Format: [KODE RAK] / [DDC]</span>
+</div>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[19px]">shelves</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 bg-surface-container-low text-primary font-mono text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="lokasi_rak" name="lokasi_rak" placeholder="Contoh: RAK INF-004.2 / DDC 005.1" required="" type="text" value="RAK INF-B2-04 / DDC 005.1 MUN m"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Gunakan call-number DDC lengkap beserta 3 huruf kapital nama pengarang dan huruf pertama judul.
+                </p>
+</div>
+</div>
+</div>
+<!-- ================= SECTION 3: Sinopsis & Abstrak Monograf ================= -->
+<div class="space-y-6 pt-2">
+<div class="flex items-center justify-between pb-3 bg-gradient-to-r from-surface-container-highest via-transparent to-transparent h-px w-full"></div>
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-mono text-body-sm text-secondary font-semibold uppercase tracking-wider">Bagian 03</span>
+<h3 class="font-headline-sm text-headline-sm text-primary tracking-tight">Sinopsis &amp; Deskripsi Abstrak</h3>
+</div>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Pencarian Semantik</span>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-primary flex items-center gap-1" for="sinopsis">
+<span>Ringkasan Monograf / Abstrak Kurikulum</span>
+<span class="text-on-surface-variant font-normal text-body-sm">(Opsional namun direkomendasikan)</span>
+</label>
+<div class="relative rounded-lg shadow-sm">
+<textarea class="block w-full p-3.5 bg-surface-container-low text-on-surface font-body-md text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all leading-relaxed" id="sinopsis" name="sinopsis" placeholder="Tuliskan ikhtisar buku, cakupan topik utama perkuliahan, dan keterkaitannya dengan silabus kurikulum di IT Del..." rows="5">Buku teks ini menyajikan dasar-dasar konsep matematika diskrit yang esensial bagi mahasiswa program studi Informatika dan Sistem Informasi. Membahas logika proposisional, teori himpunan, relasi dan fungsi, teori graf, pohon keputusan, serta aljabar Boolean dengan studi kasus algoritma riil dalam komputasi modern.</textarea>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Membantu mahasiswa menemukan buku melalui kata kunci di OPAC.</span>
+<span class="font-mono text-body-sm" id="synopsisCounter">338 Karakter</span>
+</div>
+</div>
+</div>
+<!-- ================= Form Action Bar Footer ================= -->
+<div class="pt-6 border-t-0 bg-surface-container-low -mx-6 sm:-mx-8 -mb-6 sm:-mb-8 p-6 sm:p-8 rounded-b-xl flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<a class="w-full sm:w-auto px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-primary font-label-md text-label-md text-center transition-colors hover:bg-surface-container-highest" href="#">
+                Batal / Kembali
+              </a>
+<button class="w-full sm:w-auto px-4 py-2.5 rounded-lg text-secondary hover:bg-secondary-fixed/50 font-label-md text-label-md transition-colors" id="btnResetForm" type="button">
+                Reset Formulir
+              </button>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+<button class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg shadow-sm hover:shadow-md transition-all active:scale-[0.98]" type="submit">
+<span class="material-symbols-outlined text-[19px]">check_circle</span>
+<span>Simpan Data Buku</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Right Aside: Scholarly Quick Tips & Standards (Col 9-12 / 4 cols) -->
+<aside class="lg:col-span-4 flex flex-col space-y-6">
+<!-- Callout Card 1: DDC Standard at IT Del -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0">
+<span class="material-symbols-outlined text-[20px]">menu_book</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-primary">Standarisasi DDC IT Del</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dewey Decimal Classification</p>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Perpustakaan Del mengacu pada sistem DDC Edisi ke-23 untuk penempatan monograf pada rak sirkulasi:
+          </p>
+<div class="space-y-2.5">
+<div class="p-2.5 rounded-lg bg-surface-container-low flex items-start gap-2.5">
+<span class="font-mono text-body-sm font-bold text-primary bg-surface-container-highest px-2 py-0.5 rounded">004</span>
+<div class="text-body-sm">
+<span class="font-semibold text-primary block">Ilmu Komputer Umum</span>
+<span class="text-on-surface-variant">Arsitektur, sistem operasi, hardware.</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low flex items-start gap-2.5">
+<span class="font-mono text-body-sm font-bold text-primary bg-surface-container-highest px-2 py-0.5 rounded">005.1</span>
+<div class="text-body-sm">
+<span class="font-semibold text-primary block">Pemrograman Perangkat Lunak</span>
+<span class="text-on-surface-variant">Algoritma, bahasa pemrograman Java/Python/C.</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low flex items-start gap-2.5">
+<span class="font-mono text-body-sm font-bold text-primary bg-surface-container-highest px-2 py-0.5 rounded">005.7</span>
+<div class="text-body-sm">
+<span class="font-semibold text-primary block">Struktur &amp; Manajemen Basis Data</span>
+<span class="text-on-surface-variant">SQL, NoSQL, data warehousing.</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low flex items-start gap-2.5">
+<span class="font-mono text-body-sm font-bold text-primary bg-surface-container-highest px-2 py-0.5 rounded">621.3</span>
+<div class="text-body-sm">
+<span class="font-semibold text-primary block">Teknik Elektro &amp; Jaringan</span>
+<span class="text-on-surface-variant">Sinyal, telekomunikasi, mikrokontroler.</span>
+</div>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-high text-body-sm text-on-surface space-y-1">
+<div class="font-semibold flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[16px]">qr_code</span>
+<span>Rumus Call-Number Del:</span>
+</div>
+<p class="font-mono text-body-sm text-secondary bg-surface-container-lowest p-2 rounded">
+              [DDC] [3 Huruf Pengarang] [1 Huruf Judul Kecil]
+            </p>
+<p class="text-on-surface-variant font-body-sm">
+              Contoh: <code class="font-mono text-primary font-semibold">005.1 MUN m</code>
+</p>
+</div>
+</div>
+<!-- Callout Card 2: Laravel Blade Engineering Guide for Pustakawan / Dev -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm space-y-4">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[19px]">developer_mode</span>
+<span>Blade Templating Guide</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary">Catatan Teknis Implementasi</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Formulir ini kompatibel untuk operasi ganda (Create &amp; Update) menggunakan Blade templating:
+          </p>
+<div class="space-y-3 font-mono text-body-sm">
+<div class="p-3 rounded-lg bg-surface-container-lowest shadow-sm space-y-1">
+<span class="text-secondary font-semibold">1. Binding Nilai Old() / Model:</span>
+<p class="text-on-surface-variant text-[11px] leading-relaxed">
+                value="{{ old('isbn', $buku-&gt;isbn ?? '') }}"
+              </p>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-lowest shadow-sm space-y-1">
+<span class="text-secondary font-semibold">2. Penanganan Error Spesifik:</span>
+<p class="text-on-surface-variant text-[11px] leading-relaxed">
+                @error('isbn')<br/>
+                  &lt;p class="text-error"&gt;{{ $message }}&lt;/p&gt;<br/>
+                @enderror
+              </p>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-lowest shadow-sm space-y-1">
+<span class="text-secondary font-semibold">3. Penentuan Method HTTP:</span>
+<p class="text-on-surface-variant text-[11px] leading-relaxed">
+                @isset($buku)<br/>
+                  @method('PUT')<br/>
+                @endisset
+              </p>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>SIPUS-Del Standard API</span>
+<span class="font-mono text-tertiary">RESTful Resource</span>
+</div>
+</div>
+<!-- Academic Quote / Library Motto Box -->
+<div class="p-5 rounded-xl bg-surface-container-highest shadow-sm relative overflow-hidden">
+<div class="space-y-2">
+<span class="material-symbols-outlined text-secondary text-[24px]">auto_stories</span>
+<p class="font-title-md text-title-md text-primary italic leading-snug">
+              “MarTuhan, Marroha, Marbisuk.”
+            </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Khazanah pustaka yang terkelola dengan teliti membentuk pondasi riset unggul civitas akademika Institut Teknologi Del.
+            </p>
+</div>
+</div>
+</aside>
+</div>
+<!-- Floating Live Validation Toast (Hidden initially, triggered on interaction) -->
+<div class="fixed bottom-6 right-6 z-50 bg-primary text-on-primary px-4 py-3 rounded-xl shadow-elevation flex items-center gap-3 transition-opacity duration-300 opacity-0 pointer-events-none" id="liveFeedbackToast">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px]">verified</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md" id="toastTitle">Data Bibliografi Valid</span>
+<span class="font-body-sm text-body-sm text-outline-variant" id="toastSubtitle">Siap disinkronkan ke basis data Del.</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function initMonographForm() {
+    const isbnInput = document.getElementById('isbn');
+    const isbnCharCount = document.getElementById('isbnCharCount');
+    const isbnFormatBadge = document.getElementById('isbnFormatBadge');
+    const isbnErrorNotice = document.getElementById('isbnErrorNotice');
+    
+    const judulInput = document.getElementById('judul');
+    const titleCounter = document.getElementById('titleCounter');
+    
+    const synopsisInput = document.getElementById('sinopsis');
+    const synopsisCounter = document.getElementById('synopsisCounter');
+    
+    const stokInput = document.getElementById('stok');
+    const btnDecStok = document.getElementById('btnDecStok');
+    const btnIncStok = document.getElementById('btnIncStok');
+    
+    const btnResetForm = document.getElementById('btnResetForm');
+    const bookForm = document.getElementById('bookForm');
+    const toast = document.getElementById('liveFeedbackToast');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastSubtitle = document.getElementById('toastSubtitle');
+
+    function showToast(title, subtitle) {
+      if (!toast) return;
+      toastTitle.textContent = title;
+      toastSubtitle.textContent = subtitle;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+
+    // ISBN-13 validation and char counter
+    if (isbnInput) {
+      isbnInput.addEventListener('input', (e) => {
+        // Strip non-digit characters
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length > 13) val = val.substring(0, 13);
+        e.target.value = val;
+        
+        isbnCharCount.textContent = `${val.length}/13`;
+
+        if (val.length === 13) {
+          isbnFormatBadge.textContent = 'VALID';
+          isbnFormatBadge.className = 'font-mono text-body-sm text-tertiary font-medium bg-surface-container-highest px-2 py-0.5 rounded';
+          isbnErrorNotice.classList.add('hidden');
+        } else {
+          isbnFormatBadge.textContent = `${13 - val.length} LAGI`;
+          isbnFormatBadge.className = 'font-mono text-body-sm text-secondary font-medium bg-surface-container-highest px-2 py-0.5 rounded';
+        }
+      });
+    }
+
+    // Title counter & length monitor
+    if (judulInput && titleCounter) {
+      judulInput.addEventListener('input', (e) => {
+        const len = e.target.value.trim().length;
+        titleCounter.textContent = len;
+        if (len < 5) {
+          titleCounter.className = 'text-error font-semibold';
+        } else {
+          titleCounter.className = 'text-secondary font-semibold';
+        }
+      });
+    }
+
+    // Synopsis counter
+    if (synopsisInput && synopsisCounter) {
+      synopsisInput.addEventListener('input', (e) => {
+        synopsisCounter.textContent = `${e.target.value.length} Karakter`;
+      });
+    }
+
+    // Stepper controls
+    if (btnDecStok && stokInput) {
+      btnDecStok.addEventListener('click', () => {
+        let current = parseInt(stokInput.value, 10) || 0;
+        if (current > 0) {
+          stokInput.value = current - 1;
+        }
+      });
+    }
+
+    if (btnIncStok && stokInput) {
+      btnIncStok.addEventListener('click', () => {
+        let current = parseInt(stokInput.value, 10) || 0;
+        if (current < 999) {
+          stokInput.value = current + 1;
+        }
+      });
+    }
+
+    // Reset handler
+    if (btnResetForm && bookForm) {
+      btnResetForm.addEventListener('click', () => {
+        if (confirm('Apakah Anda yakin ingin mengosongkan seluruh isian formulir registrasi buku?')) {
+          bookForm.reset();
+          isbnCharCount.textContent = '0/13';
+          isbnFormatBadge.textContent = '13 LAGI';
+          titleCounter.textContent = '0';
+          synopsisCounter.textContent = '0 Karakter';
+          showToast('Formulir Direset', 'Semua bidang kembali ke kondisi awal.');
+        }
+      });
+    }
+
+    // Intercept submit for feedback preview
+    if (bookForm) {
+      bookForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const isbnVal = isbnInput ? isbnInput.value.trim() : '';
+        const titleVal = judulInput ? judulInput.value.trim() : '';
+
+        if (isbnVal.length !== 13) {
+          isbnErrorNotice.classList.remove('hidden');
+          isbnInput.focus();
+          showToast('Gagal Menyimpan', 'ISBN harus genap 13 digit numerik.');
+          return;
+        }
+
+        if (titleVal.length < 5) {
+          judulInput.focus();
+          showToast('Gagal Menyimpan', 'Judul buku minimal memuat 5 karakter.');
+          return;
+        }
+
+        showToast('Bibliografi Disimpan', 'Eksemplar berhasil didaftarkan ke katalog SIPUS-Del.');
+      });
+    }
+  })();
+</script></main>
+<!-- Harmonious Institutional Footer -->
+<footer class="w-full bg-[#F3EEE5] border-t border-[#E5DFD4] py-12 text-[#24201D]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#E5DFD4]">
+<!-- Col 1 & 2: Branding -->
+<div class="md:col-span-2 flex flex-col gap-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-[#2B213A] flex items-center justify-center text-[#F2C58F] shadow-sm">
+<span class="material-symbols-outlined text-[19px]">local_library</span>
+</div>
+<span class="text-[17px] font-bold text-[#231D2D] tracking-tight">SIPUS-Del</span>
+</div>
+<p class="text-[13px] text-[#696155] max-w-md leading-relaxed">
+            Sistem Informasi Perpustakaan Institut Teknologi Del, mendokumentasikan khazanah ilmu pengetahuan, monograf ilmiah, dan layanan sirkulasi civitas akademika Del.
+          </p>
+<p class="text-[12px] text-[#867C6E]">
+            Jl. Sisingamangaraja, Sitoluama, Laguboti, Toba, Sumatera Utara 22381
+          </p>
+</div>
+<!-- Col 3: Services -->
+<div class="flex flex-col gap-2.5">
+<span class="text-[11px] font-bold text-[#2B213A] uppercase tracking-wider">Layanan &amp; Tautan</span>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Katalog Daring (OPAC)</a>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Repositori Karya Ilmiah</a>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Perpanjangan Masa Pinjam</a>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Panduan Klasifikasi Dewey</a>
+</div>
+<!-- Col 4: Hours -->
+<div class="flex flex-col gap-2.5">
+<span class="text-[11px] font-bold text-[#2B213A] uppercase tracking-wider">Jam Operasional</span>
+<div class="text-[12px] text-[#696155]">
+<p class="font-semibold text-[#24201D]">Senin - Jumat:</p>
+<p class="font-mono text-[#867C6E]">08.00 - 17.00 WIB</p>
+</div>
+<div class="text-[12px] text-[#696155]">
+<p class="font-semibold text-[#24201D]">Sabtu:</p>
+<p class="font-mono text-[#867C6E]">08.00 - 12.00 WIB</p>
+</div>
+<div class="text-[12px] text-[#A75B18]">
+<p class="font-semibold">Minggu &amp; Hari Libur:</p>
+<p class="font-mono">Tutup</p>
+</div>
+</div>
+</div>
+<!-- Footer Bottom -->
+<div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-[#867C6E]">
+<span>© 2024 Institut Teknologi Del Library System. Seluruh hak cipta dilindungi.</span>
+<div class="flex items-center gap-3 font-mono text-[11px]">
+<span>SIPUS Del v2.4</span>
+<span>•</span>
+<span>Laguboti, Toba</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

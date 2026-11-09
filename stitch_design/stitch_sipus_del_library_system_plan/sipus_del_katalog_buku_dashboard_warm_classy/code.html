@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>SIPUS-Del — Katalog Perpustakaan Institut Teknologi Del</title>
+<!-- Fonts: Plus Jakarta Sans & JetBrains Mono for numbers/codes -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: #FAF8F5;
+        color: #26211E;
+      }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #E2DBD0; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #C8BFB2; }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            // Warm & Classy Academic Palette
+            ivory: {
+              50: "#FCFBF9",
+              100: "#FAF8F5",
+              200: "#F3EFE8",
+              300: "#EAE3D6",
+              400: "#DDD4C4",
+            },
+            del: {
+              midnight: "#1E1A29",     // Elegant deep indigo-espresso for classy headers
+              deep: "#2B213A",         // Soft royal purple-slate
+              plum: "#483660",         // Refined signature purple
+              accent: "#5C467A",       // Soft Del Purple
+              light: "#F5F1FA",        // Del delicate tint
+              border: "#E9E2F2"
+            },
+            sand: {
+              50: "#FAF7F2",
+              100: "#F4EFE6",
+              200: "#EBE3D7",
+              300: "#DDD2C2",
+              border: "#E8E2D8",
+              line: "#ECE7DE"
+            },
+            amberClassy: {
+              light: "#FDF8F0",
+              border: "#F3E1C8",
+              text: "#9A5B18",
+              badge: "#F8ECDC",
+              accent: "#B4681E"
+            },
+            sage: {
+              light: "#F2F7F4",
+              border: "#CCE3D6",
+              text: "#2D5F43",
+              badge: "#E2EFE7"
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'soft-card': '0 1px 3px rgba(30, 26, 41, 0.04), 0 6px 16px -4px rgba(30, 26, 41, 0.03)',
+            'subtle': '0 1px 2px rgba(0, 0, 0, 0.04)',
+            'elevation': '0 12px 32px -8px rgba(33, 27, 46, 0.08)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#FAF8F5] text-[#24201D] font-sans antialiased selection:bg-[#EAE2F3] selection:text-[#2B213A]">
+<!-- Top Navigation Header: Sophisticated Deep Indigo-Espresso with warm glow -->
+<header class="fixed top-0 w-full z-50 bg-[#1E1A28] border-b border-[#2F293F] text-white shadow-subtle">
+<div class="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+<!-- Brand & University Identity -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3.5 group" href="#">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3B2C52] to-[#251F33] border border-white/10 flex items-center justify-center text-[#F2C58F] shadow-inner group-hover:border-white/20 transition-all">
+<span class="material-symbols-outlined text-[23px]">local_library</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[17px] tracking-tight text-white group-hover:text-[#F7E7CE] transition-colors">SIPUS-Del</span>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white/80 font-mono tracking-wider font-semibold border border-white/5">v2.4</span>
+</div>
+<span class="text-[11px] font-medium tracking-wide text-white/60">Perpustakaan Institut Teknologi Del</span>
+</div>
+</a>
+<!-- Main Navigation Pills -->
+<nav class="hidden lg:flex items-center gap-1.5 pl-2 border-l border-white/10">
+<a aria-current="page" class="px-3.5 py-2 rounded-lg bg-white/12 text-white font-semibold text-[13px] tracking-tight shadow-sm flex items-center gap-1.5 border border-white/10" data-path="katalog-buku" href="#">
+<span class="material-symbols-outlined text-[17px] text-[#E7C186]">menu_book</span>
+<span>Katalog Buku</span>
+</a>
+<a class="px-3.5 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium text-[13px] tracking-tight transition-colors" data-path="kelola-kategori" href="#">
+            Kelola Kategori
+          </a>
+<a class="px-3.5 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium text-[13px] tracking-tight transition-colors" data-path="tambah-buku-baru" href="#">
+            Tambah Buku Baru
+          </a>
+<a class="px-3.5 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium text-[13px] tracking-tight transition-colors flex items-center gap-2" data-path="peminjaman-dan-layanan" href="#">
+<span>Peminjaman &amp; Layanan</span>
+<span class="px-1.5 py-0.5 rounded bg-[#C07A28]/25 text-[#F2C58F] font-mono text-[10px] font-bold uppercase tracking-wider border border-[#C07A28]/40">Aktif</span>
+</a>
+</nav>
+</div>
+<!-- Header Tools & Librarian Profile -->
+<div class="flex items-center gap-4">
+<!-- Quick Search Trigger -->
+<div class="hidden md:flex items-center bg-white/5 hover:bg-white/8 border border-white/10 rounded-lg px-3 py-1.5 transition-all text-white/60 focus-within:border-white/25 focus-within:text-white">
+<span class="material-symbols-outlined text-[18px] text-white/50 mr-2">search</span>
+<span class="text-[13px] font-normal tracking-wide text-white/50 pr-4">Cari judul, ISBN, subjek...</span>
+<kbd class="font-mono text-[11px] px-1.5 py-0.5 rounded bg-white/10 text-white/70 border border-white/10">/</kbd>
+</div>
+<!-- Notification -->
+<button class="relative p-2 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors" title="Notifikasi Baru">
+<span class="material-symbols-outlined text-[21px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#E88C30] ring-2 ring-[#1E1A28]"></span>
+</button>
+<!-- Divider -->
+<div class="h-6 w-[1px] bg-white/10 hidden sm:block"></div>
+<!-- Librarian User Tag -->
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#3F2F59] to-[#5C4580] border border-white/15 flex items-center justify-center text-white/90 text-[13px] font-semibold">
+            P
+          </div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-[12px] font-semibold text-white leading-tight">Pustakawan Del</span>
+<span class="font-mono text-[10px] text-white/50 tracking-wider">ID #DEL-LIB-04</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="w-full pt-20 pb-16 bg-[#FAF8F5] min-h-[calc(100vh-14rem)]">
+<!-- Hero / Header Salam Bernuansa Warm & Classy (No Harsh Violet, High Legibility) -->
+<div class="relative w-full bg-[#F4EFE6] border-b border-[#E8E1D5] py-10 lg:py-12 overflow-hidden">
+<!-- Soft ambient warm lights -->
+<div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-[#F5DEBF]/40 blur-3xl pointer-events-none"></div>
+<div class="absolute left-1/3 -bottom-24 w-80 h-80 rounded-full bg-[#E5D7EB]/35 blur-3xl pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<div class="lg:col-span-8 flex flex-col gap-2.5">
+<div class="flex items-center gap-2.5">
+<span class="px-2.5 py-0.5 rounded-full bg-[#EBE1CF] text-[#865116] border border-[#DECFB5] font-mono text-[11px] font-semibold tracking-wider uppercase">
+                Dewey Classification OPAC
+              </span>
+<span class="text-[#7A7268] text-[12px] font-medium flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#386641]"></span>
+                Del Central Archival System
+              </span>
+</div>
+<h1 class="text-[28px] sm:text-[34px] font-bold text-[#231D2D] tracking-tight leading-snug">
+              Katalog Terpadu Perpustakaan Institut Teknologi Del
+            </h1>
+<p class="text-[14px] sm:text-[15px] text-[#5C5449] max-w-2xl leading-relaxed">
+              Eksplorasi khazanah literatur komputasi, rekayasa perangkat lunak, sains murni, dan monograf ilmiah untuk mendukung tridharma civitas akademika IT Del di Sitoluama, Laguboti.
+            </p>
+<!-- Warm Ledger Search Input -->
+<div class="mt-3.5 w-full max-w-2xl">
+<div class="relative flex items-center bg-white rounded-xl border border-[#DFD8CC] p-1.5 shadow-soft-card focus-within:border-[#483660] focus-within:ring-2 focus-within:ring-[#483660]/10 transition-all">
+<span class="material-symbols-outlined text-[22px] text-[#A56722] ml-2.5">search</span>
+<input class="w-full bg-transparent px-3 py-1.5 text-[14px] text-[#24201D] placeholder:text-[#9A9184] focus:outline-none border-none ring-0 focus:ring-0" placeholder="Cari judul monograf, nama penulis, subjek DDC, atau nomor ISBN..." type="text"/>
+<button class="bg-[#2B213A] hover:bg-[#3D2E52] text-white px-5 py-2 rounded-lg text-[13px] font-semibold flex items-center gap-1.5 transition-colors shadow-subtle shrink-0">
+<span>Cari</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<!-- Quick Search Chips -->
+<div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-2.5 px-1 font-mono text-[11px] text-[#7A7268]">
+<span class="font-sans font-medium text-[#8F8678]">Pencarian Cepat:</span>
+<a class="text-[#2B213A] hover:text-[#9A5B18] underline underline-offset-2 decoration-[#D3C8B7]" href="#">DDC 005.1 (Pemrograman)</a>
+<span>•</span>
+<a class="text-[#2B213A] hover:text-[#9A5B18] underline underline-offset-2 decoration-[#D3C8B7]" href="#">Karya Dosen Del</a>
+<span>•</span>
+<a class="text-[#2B213A] hover:text-[#9A5B18] underline underline-offset-2 decoration-[#D3C8B7]" href="#">Tugas Akhir</a>
+</div>
+</div>
+</div>
+<!-- Academic Seal / Subtle Warm Card Plate -->
+<div class="lg:col-span-4 flex justify-start lg:justify-end">
+<div class="w-full max-w-sm rounded-2xl bg-white border border-[#E8E1D5] shadow-soft-card p-5 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#F6ECE0] to-transparent rounded-bl-full pointer-events-none"></div>
+<div class="flex items-center justify-between relative z-10">
+<span class="font-mono text-[11px] font-semibold px-2.5 py-1 rounded bg-[#F4EFE6] text-[#2B213A] border border-[#E5DDCF]">
+                  KODE RAK: A-01
+                </span>
+<div class="flex items-center gap-1 text-[#386641] font-medium text-[11px]">
+<span class="w-2 h-2 rounded-full bg-[#386641] inline-block animate-pulse"></span>
+<span>ONLINE</span>
+</div>
+</div>
+<div class="my-5 text-center relative z-10">
+<div class="w-12 h-12 mx-auto rounded-xl bg-[#FAF6F0] border border-[#EADBCA] flex items-center justify-center text-[#B4681E] shadow-sm mb-2.5">
+<span class="material-symbols-outlined text-[26px]">auto_stories</span>
+</div>
+<h4 class="text-[16px] font-bold text-[#231D2D] tracking-tight">Sirkulasi Terpadu</h4>
+<p class="text-[12px] text-[#6B6356] mt-0.5">Sistem Perpustakaan IT Del — Laguboti</p>
+</div>
+<div class="pt-3 border-t border-[#F2ECE2] flex items-center justify-between text-[#857B6C] text-[11px] font-mono">
+<span>STATUS SINKRON</span>
+<span class="text-[#2B213A] font-semibold">100% TERHUBUNG</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Container -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-6">
+<!-- Flash Session Alert: Elegant & Calm Warm Amber/Sage Tint -->
+<div class="w-full bg-[#F4F9F5] border border-[#CCE4D4] rounded-xl p-4 shadow-subtle flex items-start justify-between gap-4 transition-all" id="flash-alert">
+<div class="flex items-center gap-3.5">
+<div class="w-8 h-8 rounded-lg bg-[#2D6A4F] text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[19px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[13px] font-bold text-[#1D4A36]">Katalog Berhasil Diperbarui</span>
+<p class="text-[13px] text-[#34624C] mt-0.5">
+              Data buku baru <span class="font-semibold text-[#1A4230]">"Clean Architecture"</span> telah tersimpan ke dalam koleksi utama dan klasifikasi DDC siap disirkulasikan.
+            </p>
+</div>
+</div>
+<button class="text-[#52876E] hover:text-[#1D4A36] p-1 rounded-md transition-colors" onclick="document.getElementById('flash-alert').style.display='none'" title="Tutup Notifikasi">
+<span class="material-symbols-outlined text-[19px]">close</span>
+</button>
+</div>
+<!-- Quick Metrics: 4 Warm & Refined Academic Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Koleksi Judul -->
+<div class="bg-white rounded-xl p-5 border border-[#E9E3D8] shadow-soft-card hover:border-[#D6CCC0] transition-all flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-semibold text-[#766E62] uppercase tracking-wider">Koleksi Judul</span>
+<div class="w-9 h-9 rounded-lg bg-[#F5F1FA] border border-[#E6DDF2] flex items-center justify-center text-[#483660] group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[19px]">library_books</span>
+</div>
+</div>
+<div class="mt-4">
+<div class="flex items-baseline gap-2">
+<span class="text-[26px] font-bold tracking-tight text-[#231D2D]">1,428</span>
+<span class="text-[12px] font-medium text-[#7C7467]">Monograf</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 text-[12px] font-medium text-[#2D6A4F]">
+<span class="material-symbols-outlined text-[15px]">trending_up</span>
+<span>+24 judul bulan ini</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Eksemplar Fisik -->
+<div class="bg-white rounded-xl p-5 border border-[#E9E3D8] shadow-soft-card hover:border-[#D6CCC0] transition-all flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-semibold text-[#766E62] uppercase tracking-wider">Eksemplar Fisik</span>
+<div class="w-9 h-9 rounded-lg bg-[#FAF4EC] border border-[#F0DFCC] flex items-center justify-center text-[#B4681E] group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[19px]">shelves</span>
+</div>
+</div>
+<div class="mt-4">
+<div class="flex items-baseline gap-2">
+<span class="text-[26px] font-bold tracking-tight text-[#8A4F13]">4,892</span>
+<span class="text-[12px] font-medium text-[#7C7467]">Buku fisik</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 text-[12px] text-[#766E62]">
+<span class="material-symbols-outlined text-[15px]">domain</span>
+<span>Terdistribusi 18 Rak Del</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Kategori Terdaftar -->
+<div class="bg-white rounded-xl p-5 border border-[#E9E3D8] shadow-soft-card hover:border-[#D6CCC0] transition-all flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-semibold text-[#766E62] uppercase tracking-wider">Kategori Terdaftar</span>
+<div class="w-9 h-9 rounded-lg bg-[#F0F5F2] border border-[#D5E5DC] flex items-center justify-center text-[#2D6A4F] group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[19px]">category</span>
+</div>
+</div>
+<div class="mt-4">
+<div class="flex items-baseline gap-2">
+<span class="text-[26px] font-bold tracking-tight text-[#2D6A4F]">14</span>
+<span class="text-[12px] font-medium text-[#7C7467]">Klasifikasi</span>
+</div>
+<div class="mt-2 flex items-center justify-between text-[12px]">
+<a class="text-[#483660] hover:text-[#231D2D] font-semibold inline-flex items-center gap-1 group/link" href="#">
+<span>Kelola Kategori</span>
+<span class="material-symbols-outlined text-[14px] group-hover/link:translate-x-0.5 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 4: Eksemplar Siap Pinjam -->
+<div class="bg-white rounded-xl p-5 border border-[#E9E3D8] shadow-soft-card hover:border-[#D6CCC0] transition-all flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-semibold text-[#766E62] uppercase tracking-wider">Eksemplar Siap Pinjam</span>
+<div class="w-9 h-9 rounded-lg bg-[#FAF5EE] border border-[#E8DDCE] flex items-center justify-center text-[#6A573F] group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[19px]">assignment_turned_in</span>
+</div>
+</div>
+<div class="mt-4">
+<div class="flex items-baseline gap-2">
+<span class="text-[26px] font-bold tracking-tight text-[#2B213A]">4,210</span>
+<span class="text-[12px] font-medium text-[#7C7467]">Tersedia</span>
+</div>
+<div class="mt-2 flex items-center justify-between text-[12px] text-[#766E62]">
+<span>Dipinjam: <strong class="font-mono text-[#2B213A] font-semibold">682</strong></span>
+<span class="px-2 py-0.5 rounded-full bg-[#E5EFE9] text-[#22573E] font-mono text-[10px] font-bold">86.1% Rate</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action & Filter Bar (Warm, Balanced, Sophisticated Buttons) -->
+<div class="bg-white rounded-xl p-4 border border-[#E9E3D8] shadow-soft-card flex flex-col gap-3">
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+<!-- Search & Filters -->
+<div class="flex flex-col sm:flex-row items-center gap-2.5 flex-1">
+<!-- Keyword search -->
+<div class="relative w-full sm:w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#9A9184] text-[18px]">search</span>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] pl-9 pr-3 py-2 rounded-lg text-[13px] text-[#24201D] placeholder:text-[#9A9184] focus:bg-white focus:border-[#483660] focus:ring-1 focus:ring-[#483660] focus:outline-none transition-all" placeholder="Cari kata kunci, penulis, ISBN..." type="text"/>
+</div>
+<!-- Kategori Dropdown -->
+<div class="relative w-full sm:w-52">
+<select class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3 py-2 rounded-lg text-[13px] text-[#24201D] focus:bg-white focus:border-[#483660] focus:ring-1 focus:ring-[#483660] focus:outline-none appearance-none cursor-pointer">
+<option value="">Semua Kategori</option>
+<option value="ti">Teknologi Informasi</option>
+<option value="rpl">Rekayasa Perangkat Lunak</option>
+<option value="si">Sistem Informasi</option>
+<option value="sains">Sains &amp; Matematika</option>
+<option value="tk">Teknik Komputer</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[#857B6C] pointer-events-none text-[18px]">expand_more</span>
+</div>
+<!-- Status Stok Dropdown -->
+<div class="relative w-full sm:w-44">
+<select class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3 py-2 rounded-lg text-[13px] text-[#24201D] focus:bg-white focus:border-[#483660] focus:ring-1 focus:ring-[#483660] focus:outline-none appearance-none cursor-pointer">
+<option value="all">Status: Semua Stok</option>
+<option value="available">Tersedia (&gt;0)</option>
+<option value="low">Menipis (≤3)</option>
+<option value="empty">Stok Habis (0)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[#857B6C] pointer-events-none text-[17px]">tune</span>
+</div>
+</div>
+<!-- Action Buttons: Classy Deep Navy/Del Purple, Warm secondary -->
+<div class="flex items-center gap-2.5 shrink-0">
+<a class="px-3.5 py-2 rounded-lg text-[13px] font-semibold text-[#483660] bg-[#F5F1FA] border border-[#E3D9EE] hover:bg-[#EBE2F5] transition-colors flex items-center gap-1.5 shadow-subtle" href="#">
+<span class="material-symbols-outlined text-[17px]">category</span>
+<span>Kelola Kategori</span>
+</a>
+<button class="bg-[#2B213A] hover:bg-[#3E2F54] text-white px-4 py-2 rounded-lg text-[13px] font-semibold flex items-center gap-1.5 transition-all shadow-subtle" onclick="document.getElementById('modal-tambah-buku').classList.remove('hidden')">
+<span class="material-symbols-outlined text-[18px] text-[#E7C186]">add</span>
+<span>+ Tambah Buku Baru</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Book Catalog Modern Editorial Table -->
+<div class="bg-white rounded-xl border border-[#E9E3D8] shadow-soft-card overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#F6F2EB] border-b border-[#E8E1D5] text-[#696155] text-[11px] font-semibold uppercase tracking-wider">
+<th class="py-3 px-4 text-center w-12">No</th>
+<th class="py-3 px-4 w-44">ISBN / Rak</th>
+<th class="py-3 px-4">Informasi Buku &amp; Bibliografi</th>
+<th class="py-3 px-4 w-44">Kategori</th>
+<th class="py-3 px-4 text-center w-36">Stok</th>
+<th class="py-3 px-4 text-right w-36">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#F2ECE2] text-[13px] text-[#292420]">
+<!-- Row 1 -->
+<tr class="hover:bg-[#FAF7F2] transition-colors group">
+<td class="py-4 px-4 text-center font-mono text-[12px] text-[#8F8678]">01</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="font-mono text-[12px] font-medium text-[#2B213A] tracking-tight">978-602-06-3829-4</span>
+<span class="font-mono text-[10px] text-[#887F72] mt-0.5">RAK: INF-004.2</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<h3 class="font-bold text-[14px] text-[#201B29] group-hover:text-[#483660] transition-colors tracking-tight">
+                      Struktur Data &amp; Algoritma dengan Python
+                    </h3>
+<div class="flex items-center gap-1.5 mt-1 text-[12px] text-[#6F6659]">
+<span class="font-medium text-[#3A332A]">Rinaldi Munir</span>
+<span>•</span>
+<span>Penerbit Informatika</span>
+<span>•</span>
+<span class="font-mono text-[11px]">Tahun 2022</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F3ECE0] text-[#7A4B1A] border border-[#E7DAC7]">
+                    Informatika
+                  </span>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[11px] font-medium bg-[#E8F3EC] text-[#22573E] border border-[#CCE4D4]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#2D6A4F]"></span>
+                    8 Eks.
+                  </span>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#2B213A] hover:bg-[#F3EFE9] transition-colors" title="Lihat Detail Monograf">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#B4681E] hover:bg-[#FAF4EC] transition-colors" title="Ubah Data Buku">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#A72626] hover:bg-[#FDF0F0] transition-colors" onclick="document.getElementById('modal-delete-confirm').classList.remove('hidden')" title="Hapus dari Katalog">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-[#FAF8F5]/60 hover:bg-[#FAF7F2] transition-colors group">
+<td class="py-4 px-4 text-center font-mono text-[12px] text-[#8F8678]">02</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="font-mono text-[12px] font-medium text-[#2B213A] tracking-tight">978-007-80-2212-8</span>
+<span class="font-mono text-[10px] text-[#887F72] mt-0.5">RAK: RPL-005.1</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<h3 class="font-bold text-[14px] text-[#201B29] group-hover:text-[#483660] transition-colors tracking-tight">
+                      Prinsip Rekayasa Perangkat Lunak
+                    </h3>
+<div class="flex items-center gap-1.5 mt-1 text-[12px] text-[#6F6659]">
+<span class="font-medium text-[#3A332A]">Roger S. Pressman, Ph.D.</span>
+<span>•</span>
+<span>McGraw-Hill Education</span>
+<span>•</span>
+<span class="font-mono text-[11px]">Tahun 2021</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F3ECE0] text-[#7A4B1A] border border-[#E7DAC7]">
+                    Teknik Informatika
+                  </span>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[11px] font-medium bg-[#E8F3EC] text-[#22573E] border border-[#CCE4D4]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#2D6A4F]"></span>
+                    5 Eks.
+                  </span>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#2B213A] hover:bg-[#F3EFE9] transition-colors" title="Lihat Detail Monograf">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#B4681E] hover:bg-[#FAF4EC] transition-colors" title="Ubah Data Buku">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#A72626] hover:bg-[#FDF0F0] transition-colors" onclick="document.getElementById('modal-delete-confirm').classList.remove('hidden')" title="Hapus dari Katalog">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-[#FAF7F2] transition-colors group">
+<td class="py-4 px-4 text-center font-mono text-[12px] text-[#8F8678]">03</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="font-mono text-[12px] font-medium text-[#2B213A] tracking-tight">978-007-35-2332-3</span>
+<span class="font-mono text-[10px] text-[#887F72] mt-0.5">RAK: SI-005.74</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<h3 class="font-bold text-[14px] text-[#201B29] group-hover:text-[#483660] transition-colors tracking-tight">
+                      Sistem Basis Data Relasional
+                    </h3>
+<div class="flex items-center gap-1.5 mt-1 text-[12px] text-[#6F6659]">
+<span class="font-medium text-[#3A332A]">Silberschatz &amp; Henry F. Korth</span>
+<span>•</span>
+<span>Salemba Infotek</span>
+<span>•</span>
+<span class="font-mono text-[11px]">Tahun 2020</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F3ECE0] text-[#7A4B1A] border border-[#E7DAC7]">
+                    Sistem Informasi
+                  </span>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[11px] font-medium bg-[#E8F3EC] text-[#22573E] border border-[#CCE4D4]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#2D6A4F]"></span>
+                    12 Eks.
+                  </span>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#2B213A] hover:bg-[#F3EFE9] transition-colors" title="Lihat Detail Monograf">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#B4681E] hover:bg-[#FAF4EC] transition-colors" title="Ubah Data Buku">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#A72626] hover:bg-[#FDF0F0] transition-colors" onclick="document.getElementById('modal-delete-confirm').classList.remove('hidden')" title="Hapus dari Katalog">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 (Low Stock Warning) -->
+<tr class="bg-[#FAF8F5]/60 hover:bg-[#FAF7F2] transition-colors group">
+<td class="py-4 px-4 text-center font-mono text-[12px] text-[#8F8678]">04</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="font-mono text-[12px] font-medium text-[#2B213A] tracking-tight">978-111-94-5584-4</span>
+<span class="font-mono text-[10px] text-[#887F72] mt-0.5">RAK: MAT-515.0</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<h3 class="font-bold text-[14px] text-[#201B29] group-hover:text-[#483660] transition-colors tracking-tight">
+                      Kalkulus Terapan untuk Komputasi
+                    </h3>
+<div class="flex items-center gap-1.5 mt-1 text-[12px] text-[#6F6659]">
+<span class="font-medium text-[#3A332A]">Erwin Kreyszig</span>
+<span>•</span>
+<span>John Wiley &amp; Sons</span>
+<span>•</span>
+<span class="font-mono text-[11px]">Tahun 2019</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F3ECE0] text-[#7A4B1A] border border-[#E7DAC7]">
+                    Sains &amp; Matematika
+                  </span>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[11px] font-medium bg-[#FBF0E0] text-[#9A5B18] border border-[#F2DEBF]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#C07A28]"></span>
+                    3 Eks. (Menipis)
+                  </span>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#2B213A] hover:bg-[#F3EFE9] transition-colors" title="Lihat Detail Monograf">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#B4681E] hover:bg-[#FAF4EC] transition-colors" title="Ubah Data Buku">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#A72626] hover:bg-[#FDF0F0] transition-colors" onclick="document.getElementById('modal-delete-confirm').classList.remove('hidden')" title="Hapus dari Katalog">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 (Out of Stock) -->
+<tr class="hover:bg-[#FAF7F2] transition-colors group">
+<td class="py-4 px-4 text-center font-mono text-[12px] text-[#8F8678]">05</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="font-mono text-[12px] font-medium text-[#2B213A] tracking-tight">978-013-21-2695-3</span>
+<span class="font-mono text-[10px] text-[#887F72] mt-0.5">RAK: JARKOM-004.6</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<h3 class="font-bold text-[14px] text-[#201B29] group-hover:text-[#483660] transition-colors tracking-tight">
+                      Dasar-Dasar Jaringan Komputer Modern
+                    </h3>
+<div class="flex items-center gap-1.5 mt-1 text-[12px] text-[#6F6659]">
+<span class="font-medium text-[#3A332A]">Andrew S. Tanenbaum &amp; David Wetherall</span>
+<span>•</span>
+<span>Pearson Education</span>
+<span>•</span>
+<span class="font-mono text-[11px]">Tahun 2023</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F3ECE0] text-[#7A4B1A] border border-[#E7DAC7]">
+                    Teknik Komputer
+                  </span>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[11px] font-medium bg-[#FDF0EE] text-[#A72B2B] border border-[#F6D0CC]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#BA1A1A]"></span>
+                    0 Eks. (Habis)
+                  </span>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#2B213A] hover:bg-[#F3EFE9] transition-colors" title="Lihat Detail Monograf">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#B4681E] hover:bg-[#FAF4EC] transition-colors" title="Ubah Data Buku">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-[#786E60] hover:text-[#A72626] hover:bg-[#FDF0F0] transition-colors" onclick="document.getElementById('modal-delete-confirm').classList.remove('hidden')" title="Hapus dari Katalog">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Clean Warm Pagination -->
+<div class="p-4 bg-[#F8F5EF] border-t border-[#E8E1D5] flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-[#6F6659]">
+<div>
+            Menampilkan <span class="font-bold text-[#201B29]">1</span> hingga <span class="font-bold text-[#201B29]">5</span> dari <span class="font-bold text-[#2B213A]">1,428</span> entri buku terdata
+          </div>
+<nav aria-label="Page navigation" class="flex items-center gap-1">
+<a class="px-2.5 py-1.5 rounded-md text-[#6F6659] hover:bg-[#EDE7DC] hover:text-[#201B29] transition-colors flex items-center gap-1 font-medium" href="#">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<span class="hidden sm:inline">Sebelumnya</span>
+</a>
+<span class="px-3 py-1 rounded-md bg-[#2B213A] text-white font-semibold font-mono text-[12px] shadow-subtle">1</span>
+<a class="px-3 py-1 rounded-md text-[#6F6659] hover:bg-[#EDE7DC] hover:text-[#201B29] transition-colors font-mono text-[12px]" href="#">2</a>
+<a class="px-3 py-1 rounded-md text-[#6F6659] hover:bg-[#EDE7DC] hover:text-[#201B29] transition-colors font-mono text-[12px]" href="#">3</a>
+<span class="px-1.5 text-[#A39A8D] font-mono">...</span>
+<a class="px-3 py-1 rounded-md text-[#6F6659] hover:bg-[#EDE7DC] hover:text-[#201B29] transition-colors font-mono text-[12px]" href="#">286</a>
+<a class="px-2.5 py-1.5 rounded-md text-[#2B213A] hover:bg-[#EDE7DC] transition-colors flex items-center gap-1 font-medium" href="#">
+<span class="hidden sm:inline">Selanjutnya</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Quick Shortcuts & Archival Engineering Reminders -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+<!-- Shortcut ke Kelola Kategori -->
+<div class="lg:col-span-6 bg-white rounded-xl p-5 border border-[#E9E3D8] shadow-soft-card flex items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-11 h-11 rounded-xl bg-[#FAF3EA] border border-[#ECDDC9] flex items-center justify-center text-[#B4681E] shrink-0">
+<span class="material-symbols-outlined text-[22px]">folder_special</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-bold text-[14px] text-[#241F2D]">Struktur Klasifikasi Del</h4>
+<p class="text-[12px] text-[#696155] mt-0.5">Kelola taksonomi 14 departemen, skema Dewey Decimal, dan pengaturan rak fisik.</p>
+</div>
+</div>
+<a class="shrink-0 bg-[#F4EFE6] hover:bg-[#EBE2D5] text-[#2B213A] border border-[#DDD3C2] px-3.5 py-2 rounded-lg text-[12px] font-semibold transition-colors shadow-subtle flex items-center gap-1" href="#">
+<span>Kelola</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Architecture Query Note -->
+<div class="lg:col-span-6 bg-[#FAF7F1] rounded-xl p-5 border border-[#E8E1D4] shadow-subtle flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-[#EFE9F5] border border-[#DDD0E8] text-[#483660] flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+</div>
+<div class="flex flex-col gap-1 w-full">
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-bold text-[#483660] uppercase tracking-wider">Arsitektur &amp; Optimasi Query</span>
+<span class="px-2 py-0.2 rounded-full bg-[#E5F2E9] text-[#2D6A4F] font-mono text-[10px] font-semibold border border-[#CCE4D4]">ORM Eager Load</span>
+</div>
+<p class="text-[12px] text-[#665E52]">
+              Pencegahan kendala <em class="font-semibold text-[#201B29] not-italic">N+1 query problem</em> pada relasi buku &amp; kategori katalog:
+            </p>
+<div class="mt-1 bg-white border border-[#E5DFD4] rounded-lg px-3 py-1.5 font-mono text-[11px] text-[#2B213A] flex items-center justify-between">
+<code>Buku::with('kategori')-&gt;latest()-&gt;paginate(10);</code>
+<span class="text-[#8F8678] text-[10px] font-sans">Del Standard</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Konfirmasi Hapus Buku (Interaktif via inline trigger) -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1E1A28]/40 backdrop-blur-sm" id="modal-delete-confirm">
+<div class="bg-white max-w-md w-full rounded-2xl shadow-elevation p-6 border border-[#E5DFD5] flex flex-col gap-4 animate-in fade-in zoom-in duration-150">
+<div class="flex items-center gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#FDF0EE] border border-[#F8CEC9] text-[#BA1A1A] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">warning</span>
+</div>
+<div>
+<h4 class="text-[16px] font-bold text-[#231D2D]">Hapus Buku dari Katalog?</h4>
+<p class="text-[12px] text-[#71685B] mt-0.5">Tindakan ini akan menghapus catatan sirkulasi dan bibliografi secara permanen.</p>
+</div>
+</div>
+<div class="bg-[#FAF7F2] p-3 rounded-lg border border-[#EDE5DA] text-[12px] text-[#6A6255] leading-relaxed">
+          Pastikan tidak ada eksemplar yang saat ini berstatus <strong class="text-[#B4681E]">Sedang Dipinjam</strong> oleh mahasiswa atau dosen Del.
+        </div>
+<div class="flex items-center justify-end gap-2.5 pt-2">
+<button class="px-4 py-2 rounded-lg text-[13px] font-medium text-[#655D50] hover:bg-[#F3EFE9] transition-colors" onclick="document.getElementById('modal-delete-confirm').classList.add('hidden')">
+            Batal
+          </button>
+<button class="px-4 py-2 rounded-lg text-[13px] font-semibold bg-[#BA1A1A] text-white hover:bg-[#9B1313] transition-colors shadow-subtle" onclick="document.getElementById('modal-delete-confirm').classList.add('hidden')">
+            Ya, Hapus Buku
+          </button>
+</div>
+</div>
+</div>
+<!-- Modal Tambah Buku Baru: Warm Slate Purple Elegant Header -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1E1A28]/50 backdrop-blur-sm overflow-y-auto" id="modal-tambah-buku">
+<div class="bg-white max-w-2xl w-full rounded-2xl shadow-elevation overflow-hidden border border-[#E2DBD0] my-8">
+<!-- Modal Header -->
+<div class="bg-[#2B213A] px-6 py-4 text-white flex items-center justify-between border-b border-[#3B2D4F]">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-[#F2C58F]">
+<span class="material-symbols-outlined text-[19px]">post_add</span>
+</div>
+<div>
+<h3 class="text-[15px] font-bold text-white tracking-tight">Form Registrasi Koleksi Buku Baru</h3>
+<p class="text-[11px] text-white/60">SIPUS-Del Sistem Inventarisasi Perpustakaan</p>
+</div>
+</div>
+<button class="text-white/60 hover:text-white transition-colors p-1 rounded-md" onclick="document.getElementById('modal-tambah-buku').classList.add('hidden')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Form Body -->
+<div class="p-6 flex flex-col gap-4 text-[#292420]">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Nomor ISBN</label>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg font-mono text-[13px] text-[#2B213A] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all" placeholder="Contoh: 978-602-06-3829-4" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Klasifikasi Kategori</label>
+<select class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg text-[13px] text-[#24201D] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all">
+<option>Teknologi Informasi</option>
+<option>Rekayasa Perangkat Lunak</option>
+<option>Sistem Informasi</option>
+<option>Sains &amp; Matematika</option>
+<option>Teknik Komputer</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Judul Lengkap Monograf</label>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg text-[13px] text-[#24201D] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all" placeholder="Masukkan judul buku dan sub-judul lengkap..." type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Penulis Utama</label>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg text-[13px] text-[#24201D] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all" placeholder="Nama penulis..." type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Penerbit</label>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg text-[13px] text-[#24201D] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all" placeholder="Nama penerbit..." type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Tahun Terbit</label>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg font-mono text-[13px] text-[#24201D] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all" placeholder="2024" type="number" value="2024"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Jumlah Eksemplar Masuk</label>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg font-mono text-[13px] text-[#24201D] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all" min="1" type="number" value="1"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-[#4B4336] uppercase tracking-wider">Kode Lokasi Rak / Call Number</label>
+<input class="w-full bg-[#FAF8F5] border border-[#E2DBD0] px-3.5 py-2 rounded-lg font-mono text-[13px] text-[#24201D] focus:ring-1 focus:ring-[#2B213A] focus:border-[#2B213A] focus:bg-white focus:outline-none transition-all" placeholder="Contoh: RAK-02/DDC-005.1" type="text"/>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="bg-[#F8F5EF] px-6 py-3.5 border-t border-[#E8E1D5] flex items-center justify-end gap-2.5">
+<button class="px-4 py-2 rounded-lg text-[13px] font-medium text-[#655D50] hover:bg-[#EBE4D7] transition-colors" onclick="document.getElementById('modal-tambah-buku').classList.add('hidden')">
+            Batalkan
+          </button>
+<button class="bg-[#2B213A] hover:bg-[#3D2E52] text-white px-5 py-2 rounded-lg text-[13px] font-semibold transition-all shadow-subtle flex items-center gap-1.5" onclick="document.getElementById('modal-tambah-buku').classList.add('hidden')">
+<span class="material-symbols-outlined text-[17px] text-[#E7C186]">save</span>
+<span>Simpan ke Database</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Harmonious Institutional Footer -->
+<footer class="w-full bg-[#F3EEE5] border-t border-[#E5DFD4] py-12 text-[#24201D]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#E5DFD4]">
+<!-- Col 1 & 2: Branding -->
+<div class="md:col-span-2 flex flex-col gap-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-[#2B213A] flex items-center justify-center text-[#F2C58F] shadow-sm">
+<span class="material-symbols-outlined text-[19px]">local_library</span>
+</div>
+<span class="text-[17px] font-bold text-[#231D2D] tracking-tight">SIPUS-Del</span>
+</div>
+<p class="text-[13px] text-[#696155] max-w-md leading-relaxed">
+            Sistem Informasi Perpustakaan Institut Teknologi Del, mendokumentasikan khazanah ilmu pengetahuan, monograf ilmiah, dan layanan sirkulasi civitas akademika Del.
+          </p>
+<p class="text-[12px] text-[#867C6E]">
+            Jl. Sisingamangaraja, Sitoluama, Laguboti, Toba, Sumatera Utara 22381
+          </p>
+</div>
+<!-- Col 3: Services -->
+<div class="flex flex-col gap-2.5">
+<span class="text-[11px] font-bold text-[#2B213A] uppercase tracking-wider">Layanan &amp; Tautan</span>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Katalog Daring (OPAC)</a>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Repositori Karya Ilmiah</a>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Perpanjangan Masa Pinjam</a>
+<a class="text-[13px] text-[#696155] hover:text-[#2B213A] transition-colors" href="#">Panduan Klasifikasi Dewey</a>
+</div>
+<!-- Col 4: Hours -->
+<div class="flex flex-col gap-2.5">
+<span class="text-[11px] font-bold text-[#2B213A] uppercase tracking-wider">Jam Operasional</span>
+<div class="text-[12px] text-[#696155]">
+<p class="font-semibold text-[#24201D]">Senin - Jumat:</p>
+<p class="font-mono text-[#867C6E]">08.00 - 17.00 WIB</p>
+</div>
+<div class="text-[12px] text-[#696155]">
+<p class="font-semibold text-[#24201D]">Sabtu:</p>
+<p class="font-mono text-[#867C6E]">08.00 - 12.00 WIB</p>
+</div>
+<div class="text-[12px] text-[#A75B18]">
+<p class="font-semibold">Minggu &amp; Hari Libur:</p>
+<p class="font-mono">Tutup</p>
+</div>
+</div>
+</div>
+<!-- Footer Bottom -->
+<div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-[#867C6E]">
+<span>© 2024 Institut Teknologi Del Library System. Seluruh hak cipta dilindungi.</span>
+<div class="flex items-center gap-3 font-mono text-[11px]">
+<span>SIPUS Del v2.4</span>
+<span>•</span>
+<span>Laguboti, Toba</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
