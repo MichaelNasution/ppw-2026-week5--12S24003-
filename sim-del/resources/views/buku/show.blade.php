@@ -42,61 +42,60 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
             <!-- Left Column: Visual Tome Presentation & Physical Status -->
-            <div class="lg:col-span-4 flex flex-col gap-5">
+            <div class="lg:col-span-4 flex flex-col gap-5 stagger-item">
                 
-                <!-- Book Cover Visual Card -->
+                <!-- Book Cover Visual Card (Tome 3D Style) -->
                 <div class="card-classy p-6 flex flex-col items-center relative overflow-hidden group">
                     <div class="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-[#F5DEBF]/40 blur-2xl pointer-events-none"></div>
                     <div class="absolute -bottom-16 -left-16 w-36 h-36 rounded-full bg-[#E5D7EB]/30 blur-2xl pointer-events-none"></div>
 
                     <!-- Academic Tome Cover -->
-                    <div class="w-full max-w-[220px] aspect-[1/1.42] rounded-xl shadow-elevation overflow-hidden relative flex flex-col justify-between p-5 bg-gradient-to-b from-[#1C162E] to-[#120F1F] text-[#F3E6D0] transform transition-transform duration-300 group-hover:-translate-y-1">
+                    <div class="tome-book-cover w-full max-w-[230px] aspect-[1/1.42] p-5 flex flex-col justify-between relative overflow-hidden">
                         <!-- Book Spine Accent Texture -->
-                        <div class="absolute left-0 top-0 bottom-0 w-3.5 bg-gradient-to-r from-black/60 to-transparent"></div>
-                        <div class="absolute left-3.5 top-0 bottom-0 w-[1px] bg-white/10"></div>
+                        <div class="tome-spine-line"></div>
 
                         <!-- Foil Header Stamp -->
-                        <div class="flex items-center justify-between relative z-10">
+                        <div class="flex items-center justify-between relative z-10 pl-2">
                             <span class="font-mono text-[9px] uppercase tracking-widest text-[#E6C387]">IT Del Press</span>
                             <span class="material-symbols-outlined text-[16px] text-[#E6C387]">school</span>
                         </div>
 
                         <!-- Central Foil Typography -->
-                        <div class="my-auto text-center relative z-10 flex flex-col gap-2">
+                        <div class="my-auto text-center relative z-10 flex flex-col gap-2 pl-2">
                             <span class="font-mono text-[9px] uppercase tracking-widest text-white/50">Monograf Akademik</span>
                             <h3 class="text-[15px] font-bold text-[#F8E7C8] tracking-tight leading-snug">
                                 {{ $buku->judul ?? 'Judul Buku' }}
                             </h3>
                             <div class="h-0.5 w-10 bg-[#E6C387] mx-auto rounded-full my-1"></div>
-                            <span class="text-[11px] text-white/80 font-medium">
+                            <span class="text-[11px] text-white/80 font-medium truncate">
                                 {{ $buku->penulis ?? 'Penulis' }}
                             </span>
                         </div>
 
                         <!-- Bottom Seal -->
-                        <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-white/40 relative z-10">
+                        <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-white/40 relative z-10 pl-2">
                             <span>ISBN 13</span>
                             <span>{{ $buku->tahun_terbit ?? '2026' }}</span>
                         </div>
                     </div>
 
                     <!-- Shelf Location Card -->
-                    <div class="w-full mt-5 pt-5 border-t border-[#E8E1D5] flex items-center justify-between text-xs font-mono text-[#78716C]">
-                        <span>LOKASI RAK:</span>
+                    <div class="w-full mt-5 pt-4 border-t border-[#E8E1D5] flex items-center justify-between text-xs font-mono text-[#78716C]">
+                        <span>LOKASI RAK FISIK:</span>
                         <span class="font-bold text-[#312052] bg-[#FAF7F2] px-2.5 py-1 rounded border border-[#E8E1D5]">
                             RAK-{{ $buku->kategori->kode_kategori ?? 'DEL' }}
                         </span>
                     </div>
                 </div>
 
-                <!-- Stock & Availability Card -->
+                <!-- Stock & Availability Card with Visual Meter -->
                 <div class="card-classy p-5">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Status Ketersediaan</span>
                         @if(($buku->stok ?? 0) > 0)
                             <span class="badge-stok-tersedia">Tersedia</span>
                         @else
-                            <span class="badge-stok-habis">Habis</span>
+                            <span class="badge-stok-habis">Stok Habis</span>
                         @endif
                     </div>
                     
@@ -105,11 +104,21 @@
                         <span class="text-[13px] text-[#7C7467]">Eksemplar Fisik di Rak</span>
                     </div>
 
+                    <!-- Stock Progress Meter -->
+                    @php
+                        $stokVal = $buku->stok ?? 0;
+                        $persen = min(100, max(0, ($stokVal / 15) * 100));
+                        $meterColor = $stokVal > 3 ? '#2D5F43' : ($stokVal > 0 ? '#B4681E' : '#991B1B');
+                    @endphp
+                    <div class="w-full bg-[#EAE3D6] h-2 rounded-full overflow-hidden mb-3">
+                        <div class="h-full rounded-full transition-all duration-500" style="width: {{ $persen }}%; background-color: {{ $meterColor }};"></div>
+                    </div>
+
                     <p class="text-[12px] text-[#78716C] mb-0 leading-relaxed">
                         @if(($buku->stok ?? 0) > 0)
                             Buku ini siap dipinjam oleh civitas akademika IT Del melalui meja sirkulasi perpustakaan.
                         @else
-                            Seluruh eksemplar saat ini sedang dalam peminjaman aktif. Silakan hubungi pustakawan untuk reservasi.
+                            Seluruh eksemplar saat ini sedang dalam peminjaman aktif. Silakan hubungi pustakawan untuk reservasi antrian.
                         @endif
                     </p>
                 </div>
@@ -117,7 +126,7 @@
             </div>
 
             <!-- Right Column: Bibliographic Details & Synopsis -->
-            <div class="lg:col-span-8 flex flex-col gap-5">
+            <div class="lg:col-span-8 flex flex-col gap-5 stagger-item">
                 
                 <!-- Main Monograph Header Card -->
                 <div class="card-classy p-6 sm:p-8">
@@ -143,14 +152,21 @@
                     </div>
 
                     <!-- Bibliographic Metadata Grid -->
-                    <h4 class="text-[14px] font-bold text-[#1E1A28] uppercase tracking-wider font-mono mb-3">
-                        Spesifikasi Bibliografi
-                    </h4>
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-[13px] font-bold text-[#1E1A28] uppercase tracking-wider font-mono mb-0">
+                            Spesifikasi Bibliografi
+                        </h4>
+                        <!-- Copy ISBN Quick Button with Anime.js feedback -->
+                        <button type="button" class="btn-copy-isbn inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono font-medium text-[#78716C] bg-[#FAF7F2] border border-[#E8E1D5] hover:bg-[#F3EFE9] transition-all" data-isbn="{{ $buku->isbn }}">
+                            <span class="material-symbols-outlined text-[15px] copy-icon">content_copy</span>
+                            <span class="copy-text">Salin ISBN</span>
+                        </button>
+                    </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                         <div class="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E8E1D5]">
                             <div class="text-[11px] font-mono text-[#78716C] uppercase">Nomor Standar ISBN</div>
-                            <div class="text-[14px] font-bold font-mono text-[#312052] mt-0.5">{{ $buku->isbn ?? '-' }}</div>
+                            <div class="text-[15px] font-bold font-mono text-[#312052] mt-0.5">{{ $buku->isbn ?? '-' }}</div>
                         </div>
 
                         <div class="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E8E1D5]">
@@ -170,7 +186,7 @@
                     </div>
 
                     <!-- Narrative Synopsis -->
-                    <h4 class="text-[14px] font-bold text-[#1E1A28] uppercase tracking-wider font-mono mb-2">
+                    <h4 class="text-[13px] font-bold text-[#1E1A28] uppercase tracking-wider font-mono mb-2">
                         Sinopsis & Ringkasan Konten
                     </h4>
                     

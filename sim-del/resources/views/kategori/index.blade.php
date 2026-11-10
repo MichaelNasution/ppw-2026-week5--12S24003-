@@ -68,7 +68,7 @@
                     </thead>
                     <tbody class="divide-y divide-[#F2ECE2] text-[13px] text-[#292420]">
                         @forelse($kategoris as $index => $kategori)
-                        <tr class="hover:bg-[#FAF7F2] transition-colors group">
+                        <tr class="hover:bg-[#FAF7F2] transition-colors group stagger-item">
                             <td class="py-4 px-4 text-center font-mono text-[12px] text-[#8F8678]">
                                 {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
                             </td>

@@ -32,27 +32,110 @@ body {
   min-height: 100vh;
 }
 
+/* Custom Warm Parchment Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #DFD8CC;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C4B9A9;
+}
+
 .font-mono-code {
   font-family: 'JetBrains Mono', monospace;
 }
 
+/* Base Card Classy */
 .card-classy {
   background: var(--color-surface-card);
   border: 1px solid var(--color-del-border);
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 1px 3px rgba(30, 26, 41, 0.04), 0 6px 16px -4px rgba(30, 26, 41, 0.03);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
+.card-classy:hover {
+  box-shadow: 0 4px 12px rgba(30, 26, 41, 0.06), 0 12px 24px -6px rgba(49, 32, 82, 0.04);
+}
+
+/* Buttons */
 .btn-del {
   background-color: var(--color-del-deep) !important;
   color: #FFFFFF !important;
   font-weight: 600;
   border-radius: 8px;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-del:hover {
   background-color: #22143A !important;
   color: #FFFFFF !important;
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(33, 20, 58, 0.2);
+}
+
+.btn-del:active {
+  transform: translateY(0);
+}
+
+/* Stagger Animation Initial State */
+.stagger-item {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* 3D Book Cover Presentation */
+.tome-book-cover {
+  position: relative;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #231C35 0%, #151020 100%);
+  color: #F8E7C8;
+  box-shadow: 0 10px 25px -5px rgba(21, 16, 32, 0.4), 0 8px 10px -6px rgba(21, 16, 32, 0.2);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.tome-book-cover:hover {
+  transform: translateY(-4px) rotateY(-4deg);
+  box-shadow: 0 16px 32px -6px rgba(21, 16, 32, 0.45), 0 10px 14px -6px rgba(21, 16, 32, 0.25);
+}
+
+.tome-spine-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(255,255,255,0.08) 50%, rgba(0,0,0,0.3) 100%);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+/* Quick Filter Chips */
+.quick-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #FAF6EE;
+  color: #5C5449;
+  border: 1px solid #E8DFD1;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.quick-chip:hover, .quick-chip.active {
+  background: #312052;
+  color: #FFFFFF;
+  border-color: #312052;
+  box-shadow: 0 2px 6px rgba(49, 32, 82, 0.15);
 }

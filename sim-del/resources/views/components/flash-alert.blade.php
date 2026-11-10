@@ -1,5 +1,5 @@
 @if(session('success'))
-<div class="w-full bg-[#F2F7F4] border border-[#CCE3D6] border-l-4 border-l-[#2D5F43] rounded-xl p-4 shadow-subtle flex items-start justify-between gap-4 mb-6 transition-all" id="flash-alert-success">
+<div class="flash-alert-item w-full bg-[#F2F7F4] border border-[#CCE3D6] border-l-4 border-l-[#2D5F43] rounded-xl p-4 shadow-subtle flex items-start justify-between gap-4 mb-6 transition-all" id="flash-alert-success">
     <div class="flex items-center gap-3.5">
         <div class="w-9 h-9 rounded-lg bg-[#2D5F43] text-white flex items-center justify-center shrink-0 shadow-sm">
             <span class="material-symbols-outlined text-[20px]">check_circle</span>
@@ -19,7 +19,7 @@
 @endif
 
 @if(session('error'))
-<div class="w-full bg-[#FDF2F2] border border-[#FECACA] border-l-4 border-l-[#991B1B] rounded-xl p-4 shadow-subtle flex items-start justify-between gap-4 mb-6 transition-all" id="flash-alert-error">
+<div class="flash-alert-item w-full bg-[#FDF2F2] border border-[#FECACA] border-l-4 border-l-[#991B1B] rounded-xl p-4 shadow-subtle flex items-start justify-between gap-4 mb-6 transition-all" id="flash-alert-error">
     <div class="flex items-center gap-3.5">
         <div class="w-9 h-9 rounded-lg bg-[#991B1B] text-white flex items-center justify-center shrink-0 shadow-sm">
             <span class="material-symbols-outlined text-[20px]">error</span>

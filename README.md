@@ -19,11 +19,42 @@ Aplikasi utama berada di dalam direktori [`sim-del/`](./sim-del/).
 
 ---
 
-## 🚀 Quick Start
+## 🎨 Frontend & Animation Features (Anime.js v4 + Tailwind CSS)
 
+- **Warm & Classy Academic Aesthetic**: Perpaduan palet warna Del Midnight (`#1E1A28`), Deep Plum (`#312052`), Ivory Parchment (`#FAF8F5`), dan Warm Amber (`#B45309`).
+- **Anime.js v4 Orchestrated Micro-Interactions**:
+  - **Metric Count-Up Counters**: Angka statistik beranimasi naik secara dinamis saat halaman dimuat.
+  - **Staggered Cascade Entrance**: Entri tabel dan kartu monograf masuk berurutan dengan animasi easing halus.
+  - **Table vs Grid 3D Tome Switcher**: Pengguna dapat beralih tampilan antara tabel bibliografi dan grid buku 3D tome dengan transisi animasi.
+  - **Real-Time Live Monograph Preview**: Form Tambah dan Edit buku menampilkan kartu visual 3D monograf yang diperbarui secara langsung saat pengguna mengetik.
+  - **Floating Flash Alert Pop-In**: Pesan feedback toast beranimasi dengan efek pop dan auto-dismiss.
+  - **Interactive ISBN Copy**: Tombol salin ISBN dengan feedback animasi ikon dan tooltip.
+  - **Global Hotkey**: Tekan tombol `/` pada keyboard untuk langsung fokus ke kolom pencarian katalog.
+
+---
+
+## 🚀 Cara Menjalankan Aplikasi
+
+> **Catatan Penting mengenai Port**:
+> - Server web Laravel diakses pada **[http://localhost:8000](http://localhost:8000)**.
+> - Port `5173` adalah Vite HMR (Hot Module Replacement) asset bundler, bukan server backend PHP.
+
+### 1. Jalankan Backend Laravel:
 ```powershell
 cd sim-del
 php artisan serve
 ```
 
-Akses aplikasi di peramban: **[http://localhost:8000](http://localhost:8000)**
+### 2. (Opsional untuk Development) Jalankan Vite Dev Server:
+```powershell
+cd sim-del
+npm run dev
+```
+
+Atau untuk build produksi tanpa perlu menjalankan Vite:
+```powershell
+cd sim-del
+npm run build
+```
+
+Buka peramban di: **[http://localhost:8000](http://localhost:8000)**
