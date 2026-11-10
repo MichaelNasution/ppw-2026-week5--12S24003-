@@ -69,3 +69,4 @@ class AuthSessionTest extends TestCase
         $this->assertGuest();
     }
 }
+

@@ -65,3 +65,4 @@ class QueryBuilderAnalyticsTest extends TestCase
         $responseSearch->assertSee('Analisis Perancangan Sistem');
     }
 }
+
