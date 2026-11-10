@@ -244,23 +244,43 @@
                 </nav>
             </div>
 
-            <!-- Header Tools & Librarian Profile Badge -->
-            <div class="flex items-center gap-4">
-                <a href="{{ url('/buku/create') }}" class="hidden sm:inline-flex items-center gap-1.5 bg-[#3B2C52] hover:bg-[#4A3766] text-[#F2C58F] border border-white/10 text-xs px-3.5 py-2 rounded-lg font-semibold transition-all no-underline shadow-sm">
-                    <i class="bi bi-plus-lg"></i>
-                    <span>Entri Cepat</span>
-                </a>
+            <!-- Header Tools & Librarian Profile / Login Badge -->
+            <div class="flex items-center gap-3">
+                @auth
+                    <a href="{{ route('buku.create') }}" class="hidden sm:inline-flex items-center gap-1.5 bg-[#3B2C52] hover:bg-[#4A3766] text-[#F2C58F] border border-white/10 text-xs px-3.5 py-2 rounded-lg font-semibold transition-all no-underline shadow-sm">
+                        <i class="bi bi-plus-lg"></i>
+                        <span>Entri Cepat</span>
+                    </a>
 
-                <!-- Librarian User Tag -->
-                <div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#3F2F59] to-[#5C4580] border border-white/15 flex items-center justify-center text-white text-[13px] font-bold">
-                        P
+                    <!-- Librarian Profile Badge -->
+                    <div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#3F2F59] to-[#5C4580] border border-white/15 flex items-center justify-center text-white text-[13px] font-bold shadow-xs">
+                            {{ strtoupper(substr(Auth::user()->name ?? 'P', 0, 1)) }}
+                        </div>
+                        <div class="hidden xl:flex flex-col text-left">
+                            <span class="text-[12px] font-semibold text-white leading-tight flex items-center gap-1">
+                                <span>{{ Auth::user()->name }}</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+                            </span>
+                            <span class="font-mono text-[9px] text-white/50 tracking-wider">
+                                {{ session('login_timestamp') ?? 'Sesi Aktif' }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="hidden xl:flex flex-col text-left">
-                        <span class="text-[12px] font-semibold text-white leading-tight">Pustakawan Del</span>
-                        <span class="font-mono text-[10px] text-white/50 tracking-wider">Laguboti, Toba</span>
-                    </div>
-                </div>
+
+                    <!-- Logout Form -->
+                    <form action="{{ route('logout') }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari sesi pustakawan?');">
+                        @csrf
+                        <button type="submit" class="p-2 rounded-lg text-white/70 hover:text-red-400 hover:bg-white/10 transition-colors border-0 bg-transparent flex items-center justify-center" title="Keluar / Tutup Sesi">
+                            <span class="material-symbols-outlined text-[19px]">logout</span>
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn-del inline-flex items-center gap-2 text-xs px-4 py-2 rounded-lg no-underline font-semibold shadow-sm">
+                        <span class="material-symbols-outlined text-[17px] text-[#F2C58F]">login</span>
+                        <span>Masuk Pustakawan</span>
+                    </a>
+                @endauth
             </div>
 
         </div>
