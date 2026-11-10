@@ -142,3 +142,4 @@ class BukuController extends Controller
             ->with('success', "Buku '{$judul}' berhasil dihapus dari katalog!");
     }
 }
+

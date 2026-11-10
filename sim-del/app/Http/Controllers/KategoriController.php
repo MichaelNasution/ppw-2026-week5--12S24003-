@@ -90,3 +90,4 @@ class KategoriController extends Controller
             ->with('success', "Kategori '{$nama}' beserta koleksi buku berelasi berhasil dihapus!");
     }
 }
+

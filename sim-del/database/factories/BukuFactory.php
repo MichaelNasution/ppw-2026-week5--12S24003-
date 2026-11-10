@@ -67,3 +67,4 @@ class BukuFactory extends Factory
         ];
     }
 }
+
