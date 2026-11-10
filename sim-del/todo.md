@@ -48,7 +48,7 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
 ## MILESTONE 2: BACKEND TRACK (DATABASE, MIGRATIONS & ELOQUENT MODELS)
 *Fokus: Membangun skema database berversi, model relasional Eloquent, dan otomasi mock data realistis.*
 
-- [ ] **2.1 Skema Migrasi Database**:
+- [x] **2.1 Skema Migrasi Database**:
   - [ ] Jalankan artisan CLI untuk migrasi tabel `kategoris`:
     ```powershell
     cd sim-del; php artisan make:migration create_kategoris_table
@@ -68,7 +68,7 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
     git add sim-del/database/migrations
     git commit -m "feat(migration): create kategoris and bukus tables schema"
     ```
-- [ ] **2.2 Model Eloquent & Relasi Kardinalitas**:
+- [x] **2.2 Model Eloquent & Relasi Kardinalitas**:
   - [ ] Buat model `app/Models/Kategori.php` dengan `$fillable = ['kode_kategori', 'nama_kategori']` dan relasi `public function bukus(): HasMany`.
   - [ ] Buat model `app/Models/Buku.php` dengan `$fillable` lengkap dan relasi `public function kategori(): BelongsTo`.
   - [ ] **Milestone Commit (Models)**:
@@ -76,7 +76,7 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
     git add sim-del/app/Models
     git commit -m "feat(model): define relationships and fillable attributes"
     ```
-- [ ] **2.3 Factories & Database Seeder (Faker)**:
+- [x] **2.3 Factories & Database Seeder (Faker)**:
   - [ ] Buat `database/factories/KategoriFactory.php` untuk men-generate data bidang ilmu perpustakaan.
   - [ ] Buat `database/factories/BukuFactory.php` untuk men-generate ISBN 13 digit, judul ilmiah, penulis, penerbit ternama, stok (0-15), dan sinopsis.
   - [ ] Susun `database/seeders/DatabaseSeeder.php` untuk menyuntikkan **minimal 5 Kategori** dan **minimal 20 Buku** realistis.
@@ -95,18 +95,18 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
 ## MILESTONE 3: BACKEND TRACK (RESOURCE CONTROLLERS, VALIDATION & ROUTING)
 *Fokus: Mengimplementasikan 7 aksi CRUD pada Controller, validasi server-side ketat, dan menghubungkan data ke Blade Views.*
 
-- [ ] **3.1 Registrasi Rute RESTful di `routes/web.php`**:
+- [x] **3.1 Registrasi Rute RESTful di `routes/web.php`**:
   - [ ] Redirect root URL `/` ke `/buku`.
   - [ ] Daftarkan `Route::resource('kategori', KategoriController::class);`.
   - [ ] Daftarkan `Route::resource('buku', BukuController::class);`.
-- [ ] **3.2 Implementasi `KategoriController`**:
+- [x] **3.2 Implementasi `KategoriController`**:
   - [ ] `index()`: Mengambil daftar kategori beserta jumlah buku (`withCount('bukus')`).
   - [ ] `create()`: Menampilkan form tambah kategori.
   - [ ] `store()`: Validasi `$request->validate()` (`kode_kategori` unique, `nama_kategori` min 3) dan simpan record baru.
   - [ ] `edit()`: Menampilkan form edit kategori.
   - [ ] `update()`: Validasi update dengan mengabaikan ID kategori saat ini dan simpan perubahan.
   - [ ] `destroy()`: Hapus record kategori dengan cascade delete pada buku terkait.
-- [ ] **3.3 Implementasi `BukuController`**:
+- [x] **3.3 Implementasi `BukuController`**:
   - [ ] `index()`: Mengambil daftar buku terurut terbaru dengan Eager Loading (`with('kategori')`) dan pagination 10 data.
   - [ ] `show()`: Menampilkan kartu detail buku dengan memuat relasi kategori.
   - [ ] `create()`: Mengambil seluruh kategori untuk mengisi opsi dropdown select dan menampilkan form.
@@ -114,7 +114,7 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
   - [ ] `edit()`: Membuka form edit dengan mengisi data kategori untuk dropdown.
   - [ ] `update()`: Validasi update (ISBN unik ignore current ID, stok min 0) dan perbarui record.
   - [ ] `destroy()`: Menghapus buku dari sistem dengan redirect flash message.
-- [ ] **3.4 Integrasi Dinamis Controller ke Views**:
+- [x] **3.4 Integrasi Dinamis Controller ke Views**:
   - [ ] Pastikan seluruh view Blade yang dibuat di Milestone 1 kini terisi variabel dinamis dari controller.
   - [ ] Pastikan form mengarah ke route aksi yang benar (`route('buku.store')`, `route('buku.update', $buku)`, dsb.).
   - [ ] **Milestone Commit (Controllers)**:
@@ -128,16 +128,16 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
 ## MILESTONE 4: QUERY OPTIMIZATION & PERFORMANCE AUDIT
 *Fokus: Mengaudit kueri database untuk menjamin ketiadaan N+1 Query Problem.*
 
-- [ ] **4.1 Konfigurasi `DB::listen` di `AppServiceProvider`**:
+- [x] **4.1 Konfigurasi `DB::listen` di `AppServiceProvider`**:
   - [ ] Buka `sim-del/app/Providers/AppServiceProvider.php`.
   - [ ] Tambahkan konfigurasi `Paginator::useBootstrapFive();`.
   - [ ] Tambahkan listener `DB::listen` yang menulis log berformat `[SQL AUDIT] (%.2f ms) %s` ke `storage/logs/laravel.log`.
-- [ ] **4.2 Eksekusi Uji Audit Kueri**:
+- [x] **4.2 Eksekusi Uji Audit Kueri**:
   - [ ] Jalankan server: `cd sim-del; php artisan serve`.
   - [ ] Buka peramban pada `http://localhost:8000/buku`.
   - [ ] Periksa berkas `sim-del/storage/logs/laravel.log`.
   - [ ] **Verifikasi Kritis**: Pastikan hanya ada tepat **2 kueri SQL** terpadu yang tereksekusi untuk memuat seluruh 10 data buku beserta data kategorinya (Membuktikan bahwa N+1 query problem berhasil dieliminasi!).
-- [ ] **4.3 Milestone Commit (Performance Audit)**:
+- [x] **4.3 Milestone Commit (Performance Audit)**:
   ```powershell
   git add sim-del/app/Providers/AppServiceProvider.php
   git commit -m "perf(eager-loading): optimize sql queries to prevent n+1 problem"
@@ -162,6 +162,7 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
     git add README.md
     git commit -m "docs: complete project documentation and eager loading audit report"
     ```
+
 
 
 
