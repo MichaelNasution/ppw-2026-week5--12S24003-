@@ -246,3 +246,4 @@ export function initViewSwitcher() {
         setViewMode('grid');
     }
 }
+
