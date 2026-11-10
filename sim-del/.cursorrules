@@ -1,0 +1,99 @@
+# .cursorrules — AI Governance & Strict MVC Guidelines (SIPUS-Del)
+
+## 1. Lingkungan Kerja & Aturan Terminal (CRITICAL)
+- **Root Directory Context**: Aplikasi Laravel berada di dalam sub-direktori `sim-del/`.
+- **Eksekusi Perintah Terminal**: AI **WAJIB** memastikan direktori kerja berada di dalam `sim-del/` sebelum menjalankan perintah CLI apa pun:
+  ```powershell
+  cd sim-del
+  # Contoh perintah wajib dijalankan di sim-del/:
+  php artisan migrate
+  php artisan db:seed
+  composer dump-autoload
+  npm run build
+  ```
+- **Database Engine**: Gunakan SQLite bawaan (`database/database.sqlite`). Jangan gunakan atau mengarahkan ke MySQL/Laragon kecuali diminta eksplisit.
+
+---
+
+## 2. Alur Kerja (Workflow Paradigm: Frontend-First)
+- **Frontend Dulu**: Kerjakan antarmuka pengguna (Blade layout, styling "Warm & Classy", komponen UI, dan mock data) terlebih dahulu mengacu pada prototipe visual dari **Google Stitch** (`stitch_design/`).
+- **Backend Kemudian**: Setelah struktur layout dan antarmuka Blade siap, implementasikan migrasi database, model Eloquent, seeder, controller dengan 7 aksi baku RESTful, validasi server-side, serta integrasi query audit `DB::listen`.
+
+---
+
+## 3. Konvensi Arsitektur Strict MVC
+- **Model Layer (`app/Models/`)**:
+  - Merepresentasikan entitas bisnis dan relasi data database.
+  - Wajib melindungi Mass Assignment menggunakan properti `$fillable`.
+  - Wajib mendeklarasikan relasi Eloquent secara presisi (`hasMany`, `belongsTo`).
+  - **Dilarang** menyisipkan kode HTML, markup antarmuka, atau logika presentasi di dalam Model.
+- **Controller Layer (`app/Http/Controllers/`)**:
+  - Berperan sebagai orkestrator alur request dan response.
+  - Wajib melakukan validasi masukan menggunakan `$request->validate([...])`.
+  - Wajib mengirim data ke View via `view('...', compact(...))` atau `view('...', [...])`.
+  - Wajib melakukan redirect dengan flash message: `return redirect()->route('...')->with('success', '...');`.
+  - **Dilarang** menulis kueri SQL mentah (`DB::raw` / string SQL manual); gunakan query builder Eloquent.
+- **View Layer (`resources/views/`)**:
+  - Hanya bertugas merender data yang diteruskan oleh Controller.
+  - Wajib menggunakan Master Component Layout `<x-layout>`.
+  - **Dilarang Keras** mengeksekusi kueri database langsung di dalam berkas Blade (contoh terlarang: `\App\Models\Buku::all()` di dalam template Blade).
+  - **Dilarang Keras** melakukan Lazy Loading di dalam perulangan view (wajib menerima data yang sudah di-Eager Load dari Controller).
+
+---
+
+## 4. Kebijakan Anti-N+1 Query & Optimasi Kinerja
+- Pada setiap pemanggilan daftar buku yang menampilkan nama/data kategori, Controller **WAJIB** menerapkan **Eager Loading**:
+  ```php
+  // BENAR (Menghasilkan tepat 2 kueri SQL):
+  $bukus = Buku::with('kategori')->latest()->paginate(10);
+
+  // SALAH (Memicu N+1 Query Problem - 101 kueri untuk 100 baris):
+  $bukus = Buku::latest()->paginate(10);
+  ```
+- Wajib mengaktifkan query audit logger pada `app/Providers/AppServiceProvider.php`:
+  ```php
+  \Illuminate\Support\Facades\DB::listen(function ($query) {
+      \Illuminate\Support\Facades\Log::info(sprintf(
+          "[SQL AUDIT] (%.2f ms) %s", $query->time, $query->sql
+      ));
+  });
+  ```
+
+---
+
+## 5. Keamanan Web & Integritas Formulir
+- **Perlindungan CSRF**: Seluruh tag `<form>` dengan metode `POST`, `PUT`, atau `DELETE` **WAJIB** menyertakan direktif `@csrf`.
+- **Method Spoofing**: Form untuk aksi Update wajib menyertakan `@method('PUT')`, dan form Hapus wajib menyertakan `@method('DELETE')`.
+- **Validasi Sisi Server**: Jangan pernah hanya mengandalkan validasi HTML5 sisi klien. Server-side validation via `$request->validate()` adalah harga mati:
+  - ISBN: unik 13 karakter angka.
+  - Judul: minimal 5 karakter, maksimal 255 karakter.
+  - Stok: bilangan bulat positif (min 0).
+  - Kategori ID: wajib ada di tabel `kategoris` (`exists:kategoris,id`).
+- **Penanganan Galat di View**: Tampilkan pesan kesalahan field menggunakan `@error('field_name') <div class="invalid-feedback">{{ $message }}</div> @enderror` dan gunakan fungsi penolong `old('field_name')` untuk menjaga isian form ketika validasi gagal.
+- **Penanganan Koleksi Kosong**: Tampilkan status data kosong secara anggun menggunakan `@forelse ($items as $item) ... @empty ... @endforelse`.
+
+---
+
+## 6. Standar Estetika Desain (Warm & Classy Academic)
+- Seluruh antarmuka mengadopsi estetika *"Warm Classy Academic Elegance"* yang telah diprototipekan melalui Google Stitch (`stitch_design/`):
+  - **Del Heritage Aubergine / Purple**: `#1E1A29` (Navbar/Brand Header), `#312052` (Primary CTA), `#4C1D95` (Del Brand Accent).
+  - **Warm Parchment / Cream**: `#FAF8F5` (Canvas Background), `#FAF7F2` (Section Background).
+  - **Surface Container**: `#FFFFFF` dengan border hangat `#E8E2D8`.
+  - **Burnished Amber / Gold**: `#B45309` / `#D97706` (Badge Kategori, Highlight).
+  - **Academic Sage**: `#475E4E` / `#2D5F43` (Status Stok Tersedia).
+  - **Tipografi**: `Plus Jakarta Sans` untuk heading dan teks bacaan, `JetBrains Mono` untuk ISBN & kode identifikasi.
+
+---
+
+## 7. Konvensi Pesan Commit Git (Conventional Commits)
+Gunakan format commit pesan standar sesuai 5 pilar modul praktikum:
+- `feat(views): construct blade component layout and crud templates`
+- `feat(migration): create kategoris and bukus tables schema`
+- `feat(model): define relationships and fillable attributes`
+- `feat(controller): implement restful actions and server validation`
+- `perf(eager-loading): optimize sql queries to prevent n+1 problem`
+
+Sub-commit pendukung yang diizinkan:
+- `feat(seeder): seed 5 categories and 20 realistic books with faker`
+- `docs: update planning documents and sql audit logs`
+- `refactor: refine blade layout components based on google stitch prototype`

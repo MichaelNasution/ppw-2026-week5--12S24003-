@@ -12,32 +12,32 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
 - [x] **0.1 Setup AI Rules**: Buat berkas panduan AI `.cursorrules` di dalam direktori `sim-del/`.
 - [x] **0.2 Setup Perencanaan Proyek**: Buat berkas `prd.md`, `tech-stack.md`, `design.md`, `schema.md`, dan `todo.md` di `sim-del/`.
 - [x] **0.3 Ekstrak Desain Google Stitch**: Buka dan periksa seluruh berkas prototipe Google Stitch di `stitch_design/stitch_sipus_del_library_system_plan/`.
-- [ ] **0.4 Verifikasi Lingkungan SQLite**: Periksa berkas `sim-del/.env` untuk memastikan `DB_CONNECTION=sqlite` aktif dan `database/database.sqlite` siap digunakan.
+- [x] **0.4 Verifikasi Lingkungan SQLite**: Periksa berkas `sim-del/.env` untuk memastikan `DB_CONNECTION=sqlite` aktif dan `database/database.sqlite` siap digunakan.
 
 ---
 
 ## MILESTONE 1: FRONTEND TRACK (GOOGLE STITCH PROTOTYPE TO BLADE ENGINE)
 *Fokus: Membangun Master Shell Layout, komponen modular, dan seluruh tampilan View dengan data presentasional sebelum dihubungkan ke database.*
 
-- [ ] **1.1 Master Shell Component Layout (`<x-layout>`)**:
+- [x] **1.1 Master Shell Component Layout (`<x-layout>`)**:
   - [ ] Buat berkas `sim-del/resources/views/components/layout.blade.php`.
   - [ ] Implementasikan Navbar bernuansa Del Heritage Aubergine (`#1E1A29`), Del Royal Purple (`#4C1D95`), logo monogram Del, dan menu navigasi responsif.
   - [ ] Integrasikan tipografi `Plus Jakarta Sans` dan `JetBrains Mono` via Google Fonts.
   - [ ] Tambahkan styling dasar tema *"Warm Classy Academic"* (kanvas `#FAF8F5`, kartu `#FFFFFF`, border `#E8E2D8`).
   - [ ] Siapkan kontainer slot dinamis `{{ $slot }}` dan footer kampus Institut Teknologi Del.
-- [ ] **1.2 Komponen Pendukung Blade**:
+- [x] **1.2 Komponen Pendukung Blade**:
   - [ ] Buat komponen alert notifikasi flash session (`components/flash-alert.blade.php`) untuk `session('success')` dan `session('error')`.
   - [ ] Buat komponen visual status koleksi kosong (`components/empty-state.blade.php`).
-- [ ] **1.3 Antarmuka Manajemen Kategori**:
+- [x] **1.3 Antarmuka Manajemen Kategori**:
   - [ ] `resources/views/kategori/index.blade.php`: Tabel daftar kategori, badge jumlah buku, tombol tambah, edit, hapus, dan penanganan `@forelse`.
   - [ ] `resources/views/kategori/create.blade.php`: Formulir input kategori (`kode_kategori`, `nama_kategori`) lengkap dengan `@csrf`, input text classy, dan umpan balik `@error`.
   - [ ] `resources/views/kategori/edit.blade.php`: Formulir edit data kategori dengan data binding lama `old()`, token `@csrf`, method spoofing `@method('PUT')`, dan penanganan `@error`.
-- [ ] **1.4 Antarmuka Katalog & Manajemen Buku**:
+- [x] **1.4 Antarmuka Katalog & Manajemen Buku**:
   - [ ] `resources/views/buku/index.blade.php`: Dashboard katalog buku berestetika Warm & Classy mengacu pada `sipus_del_katalog_buku_dashboard_warm_classy/code.html`, badge nama kategori Burnished Amber (`#B45309`), badge ketersediaan stok Academic Sage (`#475E4E`), tombol aksi CRUD, pagination links, dan `@forelse`.
   - [ ] `resources/views/buku/show.blade.php`: Halaman detail buku mengacu pada `sipus_del_detail_buku_show/code.html`, metadata bibliografi (ISBN, Penulis, Penerbit, Tahun), status stok besar, dan sinopsis naratif.
   - [ ] `resources/views/buku/create.blade.php`: Formulir registrasi buku baru mengacu pada `sipus_del_formulir_registrasi_edit_buku/code.html`, dropdown select kategori relasional, input angka stok, textarea sinopsis, proteksi `@csrf`, dan umpan balik `@error`.
   - [ ] `resources/views/buku/edit.blade.php`: Formulir edit data buku dengan data binding `old()`, token `@csrf`, method spoofing `@method('PUT')`, dan penanganan `@error`.
-- [ ] **1.5 Milestone Commit (Frontend)**:
+- [x] **1.5 Milestone Commit (Frontend)**:
   ```powershell
   git add sim-del/resources/views sim-del/resources/css
   git commit -m "feat(views): construct blade component layout and crud templates"
@@ -162,4 +162,6 @@ Proyek ini mengadopsi pendekatan **Frontend-First**: Seluruh rancangan antarmuka
     git add README.md
     git commit -m "docs: complete project documentation and eager loading audit report"
     ```
+
+
 
