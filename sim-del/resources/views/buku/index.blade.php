@@ -95,61 +95,61 @@
             </div>
         </div>
 
-        <!-- Quick Summary Metrics (4 Animated Cards via Anime.js) -->
+        <!-- Quick Summary Metrics (4 Animated Cards via DB::table & Anime.js) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Card 1 -->
+            <!-- Card 1: Total Judul Buku (DB::table) -->
             <div class="card-classy p-4 flex flex-col justify-between stagger-item">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Total Koleksi</span>
+                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Total Judul Buku</span>
                     <div class="w-8 h-8 rounded-lg bg-[#F5F1FA] border border-[#E6DDF2] flex items-center justify-center text-[#483660]">
                         <span class="material-symbols-outlined text-[18px]">library_books</span>
                     </div>
                 </div>
                 <div class="mt-3">
-                    <span class="text-[26px] font-bold text-[#1E1A28]" data-counter-target="{{ $bukus->total() ?? count($bukus) }}">0</span>
-                    <span class="text-[12px] text-[#7C7467] ml-1">Judul Terdata</span>
+                    <span class="text-[26px] font-bold text-[#1E1A28]" data-counter-target="{{ $stats['total_judul'] ?? 0 }}">0</span>
+                    <span class="text-[12px] text-[#7C7467] ml-1">Koleksi Terdaftar</span>
                 </div>
             </div>
 
-            <!-- Card 2 -->
+            <!-- Card 2: Total Stok Tersedia sum('stok') (DB::table) -->
             <div class="card-classy p-4 flex flex-col justify-between stagger-item">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Total Eksemplar</span>
+                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Total Stok Tersedia</span>
                     <div class="w-8 h-8 rounded-lg bg-[#FAF4EC] border border-[#F0DFCC] flex items-center justify-center text-[#B4681E]">
                         <span class="material-symbols-outlined text-[18px]">shelves</span>
                     </div>
                 </div>
                 <div class="mt-3">
-                    <span class="text-[26px] font-bold text-[#8A4F13]" data-counter-target="{{ \App\Models\Buku::sum('stok') }}">0</span>
-                    <span class="text-[12px] text-[#7C7467] ml-1">Fisik di Rak</span>
+                    <span class="text-[26px] font-bold text-[#8A4F13]" data-counter-target="{{ $stats['total_stok'] ?? 0 }}">0</span>
+                    <span class="text-[12px] text-[#7C7467] ml-1">Eksemplar Fisik</span>
                 </div>
             </div>
 
-            <!-- Card 3 -->
+            <!-- Card 3: Sedang Dipinjam (DB::table) -->
             <div class="card-classy p-4 flex flex-col justify-between stagger-item">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Kategori</span>
-                    <div class="w-8 h-8 rounded-lg bg-[#F0F5F2] border border-[#D5E5DC] flex items-center justify-center text-[#2D6A4F]">
-                        <span class="material-symbols-outlined text-[18px]">category</span>
+                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Sedang Dipinjam</span>
+                    <div class="w-8 h-8 rounded-lg bg-[#FDF8F0] border border-[#F3E1C8] flex items-center justify-center text-[#B4681E]">
+                        <span class="material-symbols-outlined text-[18px]">sync_alt</span>
                     </div>
                 </div>
                 <div class="mt-3">
-                    <span class="text-[26px] font-bold text-[#2D6A4F]" data-counter-target="{{ count($kategoris ?? []) }}">0</span>
-                    <span class="text-[12px] text-[#7C7467] ml-1">Rumpun Ilmu</span>
+                    <span class="text-[26px] font-bold text-[#B4681E]" data-counter-target="{{ $stats['sedang_dipinjam'] ?? 0 }}">0</span>
+                    <span class="text-[12px] text-[#7C7467] ml-1">Pinjaman Aktif</span>
                 </div>
             </div>
 
-            <!-- Card 4 -->
+            <!-- Card 4: Selesai Dikembalikan (DB::table) -->
             <div class="card-classy p-4 flex flex-col justify-between stagger-item">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Siap Pinjam</span>
-                    <div class="w-8 h-8 rounded-lg bg-[#FAF5EE] border border-[#E8DDCE] flex items-center justify-center text-[#6A573F]">
-                        <span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+                    <span class="text-[11px] font-bold text-[#766E62] uppercase tracking-wider font-mono">Total Dikembalikan</span>
+                    <div class="w-8 h-8 rounded-lg bg-[#F0F5F2] border border-[#CCE3D6] flex items-center justify-center text-[#2D5F43]">
+                        <span class="material-symbols-outlined text-[18px]">task_alt</span>
                     </div>
                 </div>
                 <div class="mt-3">
-                    <span class="text-[26px] font-bold text-[#2B213A]" data-counter-target="{{ \App\Models\Buku::where('stok', '>', 0)->count() }}">0</span>
-                    <span class="text-[12px] text-[#7C7467] ml-1">Judul Tersedia</span>
+                    <span class="text-[26px] font-bold text-[#2D5F43]" data-counter-target="{{ $stats['total_dikembalikan'] ?? 0 }}">0</span>
+                    <span class="text-[12px] text-[#7C7467] ml-1">Sirkulasi Selesai</span>
                 </div>
             </div>
         </div>
@@ -253,6 +253,11 @@
                                         <span>{{ $buku->penerbit }}</span>
                                         <span>&bull;</span>
                                         <span class="font-mono text-[11px]">Tahun {{ $buku->tahun_terbit }}</span>
+                                        <span>&bull;</span>
+                                        <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#8A4F13] bg-[#FAF4EC] border border-[#F0DFCC] px-2 py-0.5 rounded-full">
+                                            <span class="material-symbols-outlined text-[13px]">sync_alt</span>
+                                            <span>Dipinjam: {{ $buku->peminjamans_count ?? 0 }}x</span>
+                                        </span>
                                     </div>
                                 </div>
                             </td>
@@ -277,6 +282,12 @@
                             </td>
                             <td class="py-4 px-4 text-right">
                                 <div class="flex items-center justify-end gap-1">
+                                    <a href="{{ route('peminjaman.create', ['buku_id' => $buku->id]) }}" 
+                                       class="p-1.5 rounded-lg text-[#2D5F43] hover:text-[#1E1A28] hover:bg-[#F0F5F2] transition-all no-underline" 
+                                       title="Pinjamkan Buku Ini">
+                                        <span class="material-symbols-outlined text-[18px]">sync_alt</span>
+                                    </a>
+
                                     <a href="{{ url('/buku/' . $buku->id) }}" 
                                        class="p-1.5 rounded-lg text-[#786E60] hover:text-[#312052] hover:bg-[#F3EFE9] transition-all no-underline" 
                                        title="Lihat Detail Buku">
@@ -372,16 +383,27 @@
                             <a href="{{ url('/buku/' . $buku->id) }}" class="font-bold text-[14px] text-[#231D2D] hover:text-[#483660] transition-colors line-clamp-1 no-underline block">
                                 {{ $buku->judul }}
                             </a>
-                            <p class="text-[12px] text-[#78716C] truncate mb-0">{{ $buku->penulis }} &bull; {{ $buku->penerbit }}</p>
+                            <div class="flex items-center justify-between text-[12px] text-[#78716C] pt-0.5">
+                                <span class="truncate">{{ $buku->penulis }}</span>
+                                <span class="font-mono text-[10px] text-[#8A4F13] bg-[#FAF4EC] px-1.5 py-0.5 rounded border border-[#F0DFCC] shrink-0">
+                                    Pinjam: {{ $buku->peminjamans_count ?? 0 }}x
+                                </span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Card Actions -->
                     <div class="mt-4 pt-3 border-t border-[#F0EBE1] flex items-center justify-between">
-                        <a href="{{ url('/buku/' . $buku->id) }}" class="text-[12px] font-semibold text-[#312052] hover:text-[#B4681E] flex items-center gap-1 no-underline">
-                            <span>Detail</span>
-                            <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
-                        </a>
+                        <div class="flex items-center gap-2">
+                            <a href="{{ url('/buku/' . $buku->id) }}" class="text-[12px] font-semibold text-[#312052] hover:text-[#B4681E] flex items-center gap-1 no-underline">
+                                <span>Detail</span>
+                                <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+                            </a>
+                            <a href="{{ route('peminjaman.create', ['buku_id' => $buku->id]) }}" class="text-[12px] font-semibold text-[#2D5F43] hover:text-[#1E1A28] flex items-center gap-0.5 no-underline ml-1" title="Pinjamkan">
+                                <span class="material-symbols-outlined text-[15px]">sync_alt</span>
+                                <span>Pinjam</span>
+                            </a>
+                        </div>
 
                         <div class="flex items-center gap-1">
                             <a href="{{ url('/buku/' . $buku->id . '/edit') }}" class="p-1 rounded text-[#786E60] hover:text-[#B4681E] hover:bg-[#FAF4EC] no-underline">

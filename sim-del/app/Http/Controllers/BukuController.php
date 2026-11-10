@@ -5,37 +5,51 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class BukuController extends Controller
 {
     /**
-     * Display a listing of the resource with Eager Loading (Anti N+1) and Pagination.
+     * Display a listing of the resource with Eager Loading (Anti N+1), withCount, Dynamic Filter when(), and Pagination.
      */
     public function index(Request $request)
     {
-        $query = Buku::with('kategori');
-
-        // Filter berdasarkan pencarian kata kunci
+        // Simpan histori pencarian ke Session sesuai spesifikasi Modul
         if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('penulis', 'like', "%{$search}%")
-                  ->orWhere('penerbit', 'like', "%{$search}%")
-                  ->orWhere('isbn', 'like', "%{$search}%");
-            });
+            session(['last_catalog_search' => $request->search]);
         }
 
-        // Filter berdasarkan kategori
-        if ($request->filled('kategori_id')) {
-            $query->where('kategori_id', $request->input('kategori_id'));
-        }
+        // Query Eloquent dengan Eager Loading relasi kategori & withCount riwayat peminjaman (Anti N+1)
+        $bukus = Buku::with('kategori')
+            ->withCount('peminjamans')
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $search = trim($request->search);
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('judul', 'like', "%{$search}%")
+                        ->orWhere('penulis', 'like', "%{$search}%")
+                        ->orWhere('penerbit', 'like', "%{$search}%")
+                        ->orWhere('isbn', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->filled('kategori_id'), function ($q) use ($request) {
+                $q->where('kategori_id', $request->kategori_id);
+            })
+            ->latest('id')
+            ->paginate(10)
+            ->withQueryString();
 
-        $bukus = $query->latest()->paginate(10)->withQueryString();
         $kategoris = Kategori::orderBy('nama_kategori')->get();
 
-        return view('buku.index', compact('bukus', 'kategoris'));
+        // Kartu Statistik Perpustakaan menggunakan Fluent Query Builder (DB::table)
+        $stats = [
+            'total_judul'        => DB::table('bukus')->count(),
+            'total_stok'         => (int) DB::table('bukus')->sum('stok'),
+            'sedang_dipinjam'    => DB::table('peminjamans')->where('status', 'dipinjam')->count(),
+            'total_dikembalikan' => DB::table('peminjamans')->where('status', 'dikembalikan')->count(),
+        ];
+
+        return view('buku.index', compact('bukus', 'kategoris', 'stats'));
     }
 
     /**
