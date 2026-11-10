@@ -13,7 +13,11 @@ class ExampleTest extends TestCase
     public function test_the_application_returns_a_successful_response(): void
     {
         $response = $this->get('/');
+        $response->assertRedirect('/buku');
 
-        $response->assertStatus(200);
+        $bukuResponse = $this->get('/buku');
+        $bukuResponse->assertStatus(200);
+        $bukuResponse->assertSee('SIPUS-Del');
+        $bukuResponse->assertSee('Katalog Terpadu Perpustakaan');
     }
 }

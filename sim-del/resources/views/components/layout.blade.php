@@ -18,6 +18,9 @@
     <!-- Bootstrap 5.3 CSS (Modul Praktikum Compliant) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Vite Asset Bundling -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <!-- Tailwind CSS (Google Stitch Design System Tokens) -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
