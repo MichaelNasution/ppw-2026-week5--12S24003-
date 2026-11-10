@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use App\Models\Buku;
 use App\Models\Kategori;
 use App\Models\Peminjaman;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AcidTransactionTest extends TestCase
@@ -13,6 +15,7 @@ class AcidTransactionTest extends TestCase
     use DatabaseTransactions;
 
     protected Kategori $kategori;
+    protected User $pustakawan;
 
     protected function setUp(): void
     {
@@ -25,6 +28,16 @@ class AcidTransactionTest extends TestCase
                 'deskripsi' => 'Buku-buku informatika dan sistem informasi',
             ]
         );
+
+        $this->pustakawan = User::firstOrCreate(
+            ['email' => 'pustakawan@del.ac.id'],
+            [
+                'name' => 'Pustakawan Del',
+                'password' => Hash::make('password123'),
+            ]
+        );
+
+        $this->actingAs($this->pustakawan);
     }
 
     /**

@@ -4,7 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Buku;
 use App\Models\Kategori;
+use App\Models\Peminjaman;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,54 +17,61 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Suntikkan minimal 5 Kategori Rumpun Ilmu di IT Del
+        // 1. Akun Pustakawan Uji Resmi (Sesuai Spesifikasi Modul Praktikum Minggu 6)
+        User::firstOrCreate(
+            ['email' => 'pustakawan@del.ac.id'],
+            [
+                'name' => 'Pustakawan Utama Del',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // 2. Suntikkan Kategori Rumpun Ilmu di IT Del
         $kategoris = [
-            [
-                'kode_kategori' => 'INF',
-                'nama_kategori' => 'Informatika & Ilmu Komputer',
-            ],
-            [
-                'kode_kategori' => 'RPL',
-                'nama_kategori' => 'Rekayasa Perangkat Lunak',
-            ],
-            [
-                'kode_kategori' => 'SI',
-                'nama_kategori' => 'Sistem Informasi & Bisnis Digital',
-            ],
-            [
-                'kode_kategori' => 'TE',
-                'nama_kategori' => 'Teknik Elektro & Sistem Kendali',
-            ],
-            [
-                'kode_kategori' => 'MAT',
-                'nama_kategori' => 'Sains Dasar & Matematika Terapan',
-            ],
-            [
-                'kode_kategori' => 'BIO',
-                'nama_kategori' => 'Bioteknologi & Rekayasa Hayati',
-            ],
+            ['kode_kategori' => 'INF', 'nama_kategori' => 'Informatika & Ilmu Komputer'],
+            ['kode_kategori' => 'RPL', 'nama_kategori' => 'Rekayasa Perangkat Lunak'],
+            ['kode_kategori' => 'SI',  'nama_kategori' => 'Sistem Informasi & Bisnis Digital'],
+            ['kode_kategori' => 'TE',  'nama_kategori' => 'Teknik Elektro & Sistem Kendali'],
+            ['kode_kategori' => 'MAT', 'nama_kategori' => 'Sains Dasar & Matematika Terapan'],
+            ['kode_kategori' => 'BIO', 'nama_kategori' => 'Bioteknologi & Rekayasa Hayati'],
         ];
 
         $kategoriModels = [];
         foreach ($kategoris as $item) {
-            $kategoriModels[] = Kategori::firstOrCreate(
+            $kategoriModels[$item['kode_kategori']] = Kategori::firstOrCreate(
                 ['kode_kategori' => $item['kode_kategori']],
                 ['nama_kategori' => $item['nama_kategori']]
             );
         }
 
-        // 2. Suntikkan minimal 20 Koleksi Buku Realistis
+        // 3. Suntikkan Koleksi Buku Lengkap (Termasuk Spesimen Stok = 0 dan Stok = 1 untuk Pengujian ACID)
         $koleksiBuku = [
+            // Sampel Buku Uji Stok = 0 (Khusus Pengujian Rollback Transaksi ACID saat Stok Habis)
+            [
+                'isbn' => '9786230134567',
+                'judul' => 'Tata Kelola Teknologi Informasi & Framework COBIT 2019 (Stok = 0)',
+                'penulis' => 'ISACA Research Team',
+                'penerbit' => 'Salemba Infotek',
+                'tahun_terbit' => 2023,
+                'kode_kat' => 'SI',
+                'stok' => 0, // STOK = 0 (WAJIB DITOLAK & ROLLBACK)
+                'sinopsis' => 'Buku uji coba khusus pengujian transaksi ACID: Ketika stok bernilai 0, sistem wajib menolak peminjaman secara atomik dan tidak mengizinkan nilai stok menjadi minus.',
+            ],
+
+            // Sampel Buku Uji Stok = 1 (Khusus Pengujian Concurrency Locking lockForUpdate)
             [
                 'isbn' => '9786020638294',
-                'judul' => 'Struktur Data & Algoritma Lanjut dengan Python',
-                'penulis' => 'Rinaldi Munir, M.T.',
-                'penerbit' => 'Penerbit Informatika Bandung',
-                'tahun_terbit' => 2022,
+                'judul' => 'Kriptografi Kuantum & Keamanan Blockchain (Stok = 1)',
+                'penulis' => 'Dr. Ing. Kripto Del',
+                'penerbit' => 'Del Press',
+                'tahun_terbit' => 2024,
                 'kode_kat' => 'INF',
-                'stok' => 8,
-                'sinopsis' => 'Buku ini membahas konsep fundamental hingga tingkat lanjut struktur data linear dan non-linear, analisis kompleksitas asimtotik algoritma (Big-O notation), serta implementasi grafis menggunakan bahasa pemrograman Python 3.',
+                'stok' => 1, // STOK = 1 (PENGUJIAN REBUTAN KUOTA / PESSIMISTIC LOCKING)
+                'sinopsis' => 'Spesimen pengujian concurrency locking: Jika dua transaksi mencoba meminjam pada saat bersamaan, lockForUpdate memastikan hanya pemohon pertama yang lolos dan pemohon kedua ditolak setelah stok menjadi 0.',
             ],
+
+            // Buku-Buku Koleksi Umum
             [
                 'isbn' => '9780078022128',
                 'judul' => 'Clean Code: Panduan Menulis Kode Bersih dan Teruji',
@@ -69,7 +80,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2021,
                 'kode_kat' => 'RPL',
                 'stok' => 5,
-                'sinopsis' => 'Buku pegangan wajib bagi software engineer untuk menghasilkan kode yang mudah dipelihara, modular, memiliki tingkat keterbacaan tinggi, serta menerapkan prinsip-prinsip SOLID secara elegan.',
+                'sinopsis' => 'Buku pegangan wajib bagi software engineer untuk menghasilkan kode yang modular, mudah dipelihara, dan menerapkan prinsip-prinsip SOLID secara elegan.',
             ],
             [
                 'isbn' => '9786230105432',
@@ -79,7 +90,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2024,
                 'kode_kat' => 'RPL',
                 'stok' => 12,
-                'sinopsis' => 'Panduan komprehensif implementasi arsitektur Model-View-Controller (MVC), Request Lifecycle, migrasi database, Eloquent ORM, dan Blade Component Engine pada framework Laravel modern.',
+                'sinopsis' => 'Panduan komprehensif implementasi arsitektur Model-View-Controller (MVC), database persistence, ACID transactions, dan Blade Component Engine.',
             ],
             [
                 'isbn' => '9786020385914',
@@ -89,7 +100,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2023,
                 'kode_kat' => 'SI',
                 'stok' => 7,
-                'sinopsis' => 'Menelaah arsitektur internal database engine relasional, normalisasi data 1NF hingga BCNF, teknik indexing B-Tree, serta mitigasi query bottleneck dan N+1 query problem.',
+                'sinopsis' => 'Menelaah arsitektur internal database engine relasional, transaksi ACID, isolasi level, dan mitigasi N+1 query problem menggunakan Eager Loading.',
             ],
             [
                 'isbn' => '9786022987123',
@@ -99,7 +110,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2022,
                 'kode_kat' => 'SI',
                 'stok' => 4,
-                'sinopsis' => 'Kajian strategis peranan sistem informasi korporat, ERP, supply chain management, dan transformasi digital dalam memenangkan kompetisi bisnis global.',
+                'sinopsis' => 'Kajian strategis peranan sistem informasi korporat, ERP, supply chain management, dan transformasi digital.',
             ],
             [
                 'isbn' => '9789792965431',
@@ -109,7 +120,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2020,
                 'kode_kat' => 'TE',
                 'stok' => 6,
-                'sinopsis' => 'Prinsip dasar analisis rangkaian listrik DC dan AC, teorema Thevenin dan Norton, respon transien orde satu dan dua, serta pengantar komponen semikonduktor.',
+                'sinopsis' => 'Prinsip dasar analisis rangkaian listrik DC dan AC, teorema Thevenin dan Norton, serta respon transien rangkaian orde satu dan dua.',
             ],
             [
                 'isbn' => '9786024462198',
@@ -119,7 +130,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2021,
                 'kode_kat' => 'TE',
                 'stok' => 3,
-                'sinopsis' => 'Teori kontrol klasik dan modern, pemodelan fungsi alih, kestabilan Routh-Hurwitz, root locus, diagram Bode, serta penerapannya pada robotika bergerak.',
+                'sinopsis' => 'Teori kontrol klasik dan modern, pemodelan fungsi alih, kestabilan Routh-Hurwitz, dan implementasi robotika otonom.',
             ],
             [
                 'isbn' => '9789790158921',
@@ -129,7 +140,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2022,
                 'kode_kat' => 'MAT',
                 'stok' => 10,
-                'sinopsis' => 'Buku teks standar universitas yang memuat materi limit, turunan parsial, integral lipat dua dan tiga, kalkulus vektor, teorema Green, Gauss, dan Stokes.',
+                'sinopsis' => 'Buku teks standar universitas yang memuat materi limit, turunan parsial, integral lipat dua dan tiga, serta kalkulus vektor.',
             ],
             [
                 'isbn' => '9786021514782',
@@ -139,7 +150,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2023,
                 'kode_kat' => 'MAT',
                 'stok' => 9,
-                'sinopsis' => 'Membahas logika proposisi, teori himpunan, relasi dan fungsi, kombinatorika, relasi rekurens, aljabar Boolean, teori graf, dan struktur pohon (tree).',
+                'sinopsis' => 'Membahas logika proposisi, relasi dan fungsi, kombinatorika, aljabar Boolean, dan struktur pohon (tree).',
             ],
             [
                 'isbn' => '9786232091234',
@@ -149,123 +160,77 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2021,
                 'kode_kat' => 'BIO',
                 'stok' => 4,
-                'sinopsis' => 'Konsep dasar manipulasi DNA rekombinan, kloning gen, ekspresi protein rekombinan, teknologi CRISPR-Cas9, dan aplikasi bioteknologi pada agrikultur dan kesehatan.',
-            ],
-            [
-                'isbn' => '9786026232987',
-                'judul' => 'Rekayasa Kebutuhan Perangkat Lunak Berbasis Agile',
-                'penulis' => 'Ian Sommerville',
-                'penerbit' => 'Pearson Education',
-                'tahun_terbit' => 2023,
-                'kode_kat' => 'RPL',
-                'stok' => 6,
-                'sinopsis' => 'Metodologi elisitasi, analisis, spesifikasi, dan validasi requirement sistem perangkat lunak berskala enterprise menggunakan pendekatan User Stories dan Scrum.',
-            ],
-            [
-                'isbn' => '9786230118942',
-                'judul' => 'Machine Learning & Deep Learning Terapan dengan PyTorch',
-                'penulis' => 'Aurélien Géron',
-                'penerbit' => 'O\'Reilly Media',
-                'tahun_terbit' => 2024,
-                'kode_kat' => 'INF',
-                'stok' => 7,
-                'sinopsis' => 'Panduan praktis membangun model klasifikasi, regresi, Convolutional Neural Networks (CNN), dan Recurrent Neural Networks (RNN) untuk analisis big data.',
-            ],
-            [
-                'isbn' => '9786022806541',
-                'judul' => 'Keamanan Jaringan Komputer, Kriptografi & Ethical Hacking',
-                'penulis' => 'William Stallings',
-                'penerbit' => 'Andi Publisher',
-                'tahun_terbit' => 2022,
-                'kode_kat' => 'INF',
-                'stok' => 5,
-                'sinopsis' => 'Prinsip keamanan informasi CIA triad, algoritma kriptografi simetris AES dan asimetris RSA, sertifikat digital PKI, firewall, dan mitigasi serangan cyber.',
-            ],
-            [
-                'isbn' => '9786020311239',
-                'judul' => 'Analisis dan Perancangan Sistem Informasi Menggunakan UML',
-                'penulis' => 'Rosa A.S. & M. Shalahuddin',
-                'penerbit' => 'Informatika Bandung',
-                'tahun_terbit' => 2021,
-                'kode_kat' => 'SI',
-                'stok' => 8,
-                'sinopsis' => 'Panduan terstruktur perancangan sistem berorientasi objek menggunakan diagram Use Case, Activity, Class, Sequence, dan Deployment Diagram.',
-            ],
-            [
-                'isbn' => '9786021514999',
-                'judul' => 'Sistem Tertanam (Embedded System) Berbasis Mikrokontroler ARM Cortex-M',
-                'penulis' => 'Agus Bejo',
-                'penerbit' => 'Graha Ilmu',
-                'tahun_terbit' => 2022,
-                'kode_kat' => 'TE',
-                'stok' => 5,
-                'sinopsis' => 'Perancangan hardware dan software sistem benam, komunikasi serial I2C, SPI, UART, interfacing sensor analog-digital, dan pemrograman bare-metal C.',
-            ],
-            [
-                'isbn' => '9786024461023',
-                'judul' => 'Aljabar Linier Terapan untuk Sains Data dan Kecerdasan Buatan',
-                'penulis' => 'Gilbert Strang',
-                'penerbit' => 'Wellesley-Cambridge Press',
-                'tahun_terbit' => 2023,
-                'kode_kat' => 'MAT',
-                'stok' => 6,
-                'sinopsis' => 'Vektor, ruang vektor, transformasi linear, nilai eigen dan vektor eigen, dekomposisi nilai singular (SVD), dan reduksi dimensi Principal Component Analysis (PCA).',
-            ],
-            [
-                'isbn' => '9786230123456',
-                'judul' => 'Pengujian Perangkat Lunak & Otomasi QA Berbasis Selenium dan Pest',
-                'penulis' => 'Glenford J. Myers',
-                'penerbit' => 'Wiley Academic',
-                'tahun_terbit' => 2024,
-                'kode_kat' => 'RPL',
-                'stok' => 4,
-                'sinopsis' => 'Strategi black-box dan white-box testing, unit testing otomatis, integrasi pengujian continuous integration (CI/CD), dan pelaporan bug audit.',
-            ],
-            [
-                'isbn' => '9786020456789',
-                'judul' => 'Arsitektur Microservices & Cloud Native dengan Docker dan Kubernetes',
-                'penulis' => 'Sam Newman',
-                'penerbit' => 'O\'Reilly Media',
-                'tahun_terbit' => 2023,
-                'kode_kat' => 'INF',
-                'stok' => 5,
-                'sinopsis' => 'Mendekomposisi sistem monolitik menjadi layanan independen, orkestrasi kontainer dengan Kubernetes, API Gateway, dan monitoring terdistribusi.',
-            ],
-            [
-                'isbn' => '9786023751234',
-                'judul' => 'Bioinformatika & Analisis Data Genomik Berbasis Komputasi',
-                'penulis' => 'Arthur M. Lesk',
-                'penerbit' => 'Oxford University Press',
-                'tahun_terbit' => 2022,
-                'kode_kat' => 'BIO',
-                'stok' => 3,
-                'sinopsis' => 'Pencarian homologi sekuens DNA dan protein menggunakan BLAST, penyejajaran sekuens ganda (multiple sequence alignment), dan prediksi struktur protein.',
-            ],
-            [
-                'isbn' => '9786230134567',
-                'judul' => 'Tata Kelola Teknologi Informasi & Framework COBIT 2019',
-                'penulis' => 'ISACA Research Team',
-                'penerbit' => 'Salemba Infotek',
-                'tahun_terbit' => 2023,
-                'kode_kat' => 'SI',
-                'stok' => 0, // Sengaja diset 0 untuk menguji indikator "Stok Habis"
-                'sinopsis' => 'Prinsip tata kelola teknologi informasi institusi, manajemen risiko kepatuhan, audit sistem informasi, dan penyelarasan tujuan TI dengan tujuan bisnis.',
+                'sinopsis' => 'Konsep dasar manipulasi DNA rekombinan, kloning gen, teknologi CRISPR-Cas9, dan aplikasi bioteknologi pada agrikultur.',
             ],
         ];
 
+        $bukuInstances = [];
         foreach ($koleksiBuku as $bukuData) {
-            $kat = Kategori::where('kode_kategori', $bukuData['kode_kat'])->first();
+            $kat = $kategoriModels[$bukuData['kode_kat']] ?? reset($kategoriModels);
 
-            Buku::firstOrCreate(
+            $bukuInstances[] = Buku::firstOrCreate(
                 ['isbn' => $bukuData['isbn']],
                 [
                     'judul' => $bukuData['judul'],
                     'penulis' => $bukuData['penulis'],
                     'penerbit' => $bukuData['penerbit'],
                     'tahun_terbit' => $bukuData['tahun_terbit'],
-                    'kategori_id' => $kat ? $kat->id : $kategoriModels[0]->id,
+                    'kategori_id' => $kat->id,
                     'stok' => $bukuData['stok'],
                     'sinopsis' => $bukuData['sinopsis'],
+                ]
+            );
+        }
+
+        // 4. Suntikkan Sampel Riwayat Transaksi Peminjaman (Sesuai Spesifikasi Modul)
+        $cleanCodeBuku = Buku::where('isbn', '9780078022128')->first();
+        $laravelBuku   = Buku::where('isbn', '9786230105432')->first();
+        $dbBuku        = Buku::where('isbn', '9786020385914')->first();
+
+        if ($cleanCodeBuku) {
+            // Transaksi 1: Sedang dipinjam (Aktif)
+            Peminjaman::firstOrCreate(
+                ['kode_pinjam' => 'PJM-20261110-DEL01'],
+                [
+                    'buku_id' => $cleanCodeBuku->id,
+                    'nim_peminjam' => '12S24003',
+                    'nama_peminjam' => 'Michael Pratama Nasution',
+                    'tanggal_pinjam' => now()->subDays(2)->toDateString(),
+                    'tanggal_jatuh_tempo' => now()->addDays(5)->toDateString(),
+                    'tanggal_kembali' => null,
+                    'status' => 'dipinjam',
+                ]
+            );
+        }
+
+        if ($laravelBuku) {
+            // Transaksi 2: Selesai dikembalikan
+            Peminjaman::firstOrCreate(
+                ['kode_pinjam' => 'PJM-20261101-DEL02'],
+                [
+                    'buku_id' => $laravelBuku->id,
+                    'nim_peminjam' => '12S24010',
+                    'nama_peminjam' => 'Maria Simanjuntak',
+                    'tanggal_pinjam' => now()->subDays(10)->toDateString(),
+                    'tanggal_jatuh_tempo' => now()->subDays(3)->toDateString(),
+                    'tanggal_kembali' => now()->subDays(2)->toDateString(),
+                    'status' => 'dikembalikan',
+                ]
+            );
+        }
+
+        if ($dbBuku) {
+            // Transaksi 3: Pinjaman aktif dengan status lewat tempo (Audit keterlambatan)
+            Peminjaman::firstOrCreate(
+                ['kode_pinjam' => 'PJM-20261025-DEL03'],
+                [
+                    'buku_id' => $dbBuku->id,
+                    'nim_peminjam' => '12S24025',
+                    'nama_peminjam' => 'Budi Santoso',
+                    'tanggal_pinjam' => now()->subDays(15)->toDateString(),
+                    'tanggal_jatuh_tempo' => now()->subDays(8)->toDateString(),
+                    'tanggal_kembali' => null,
+                    'status' => 'dipinjam',
                 ]
             );
         }

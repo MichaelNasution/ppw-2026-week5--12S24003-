@@ -1,16 +1,18 @@
-# ppw-2026-week5--12S24003
+# ppw-2026-week6--12S24003
 
 Praktikum Pemrograman & Pengujian Web (12S3101) &bull; Institut Teknologi Del  
-**Modul Minggu 05**: Implementasi Pola Arsitektur Model-View-Controller (MVC), Request Lifecycle, Eloquent ORM, Validasi Server-Side, Blade Component Engine, dan Asset Bundling Vite pada Laravel 11.x.
+- **Modul Minggu 05**: Implementasi Pola Arsitektur Model-View-Controller (MVC), Request Lifecycle, Eloquent ORM, Validasi Server-Side, Blade Component Engine, dan Asset Bundling Vite pada Laravel 11.x.
+- **Modul Minggu 06**: Konektivitas Basis Data Persisten (MySQL Laragon), Arsitektur PDO & Parameter Binding, Transaksi Basis Data ACID (`DB::transaction` & `lockForUpdate`), Fluent Query Builder (`DB::table`), Agregasi Relasi `withCount`, serta Manajemen Sesi & Autentikasi Pustakawan pada Laravel 11.x.
 
 ---
 
-## 🏛️ SIPUS-Del — Sistem Informasi Perpustakaan Kampus Del
+## 🏛️ SIPUS-Del — Sistem Informasi Perpustakaan Kampus Del (Tahap 2)
 
 Aplikasi utama berada di dalam direktori [`sim-del/`](./sim-del/).
 
 ### 📖 Panduan Lengkap & Dokumentasi:
-- **Panduan Menjalankan Aplikasi**: [sim-del/README.md](./sim-del/README.md)
+- **Panduan Menjalankan & Bukti Pengujian Week 6**: [sim-del/README.md](./sim-del/README.md)
+- **Akun Pustakawan Uji**: `pustakawan@del.ac.id` / `password123`
 - **Product Requirement Document (PRD)**: [sim-del/prd.md](./sim-del/prd.md)
 - **Spesifikasi Teknologi (Tech Stack)**: [sim-del/tech-stack.md](./sim-del/tech-stack.md)
 - **Design System ("Warm & Classy Academic")**: [sim-del/design.md](./sim-del/design.md)
