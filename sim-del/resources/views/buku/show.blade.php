@@ -121,6 +121,14 @@
                             Seluruh eksemplar saat ini sedang dalam peminjaman aktif. Silakan hubungi pustakawan untuk reservasi antrian.
                         @endif
                     </p>
+
+                    <div class="mt-4 pt-3 border-t border-[#E8E1D5]">
+                        <a href="{{ route('peminjaman.create', ['buku_id' => $buku->id]) }}" 
+                           class="btn-del w-full text-center inline-flex items-center justify-center gap-2 text-xs px-4 py-2.5 rounded-lg no-underline font-semibold shadow-sm">
+                            <span class="material-symbols-outlined text-[17px]">sync_alt</span>
+                            <span>Proses Pinjam Buku Ini</span>
+                        </a>
+                    </div>
                 </div>
 
             </div>

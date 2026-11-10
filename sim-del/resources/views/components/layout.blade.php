@@ -230,6 +230,12 @@
                         <span>Kelola Kategori</span>
                     </a>
 
+                    <a class="px-3.5 py-2 rounded-lg text-[13px] font-semibold tracking-tight transition-colors no-underline flex items-center gap-1.5 {{ request()->is('peminjaman*') ? 'bg-white/15 text-white border border-white/10' : 'text-white/70 hover:text-white hover:bg-white/5' }}" 
+                       href="{{ route('peminjaman.index') }}">
+                        <span class="material-symbols-outlined text-[17px] text-[#38BDF8]">sync_alt</span>
+                        <span>Sirkulasi Pinjam</span>
+                    </a>
+
                     <a class="px-3.5 py-2 rounded-lg text-[13px] font-semibold tracking-tight transition-colors no-underline flex items-center gap-1.5 text-white/70 hover:text-white hover:bg-white/5" 
                        href="{{ url('/buku/create') }}">
                         <span class="material-symbols-outlined text-[17px] text-[#A3E635]">add_circle</span>
