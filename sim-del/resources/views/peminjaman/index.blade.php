@@ -91,17 +91,17 @@
                 </div>
             @else
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
+                    <table class="w-full text-left text-xs border-collapse">
                         <thead class="bg-[#FAF7F2] border-b border-[#E8E1D5] text-[#554D40] uppercase tracking-wider font-semibold text-[10px]">
                             <tr>
-                                <th class="py-3.5 px-4">Kode Transaksi</th>
-                                <th class="py-3.5 px-4">Buku & Kategori</th>
-                                <th class="py-3.5 px-4">Peminjam</th>
-                                <th class="py-3.5 px-4">Tgl Pinjam</th>
-                                <th class="py-3.5 px-4">Jatuh Tempo</th>
-                                <th class="py-3.5 px-4">Tgl Kembali</th>
-                                <th class="py-3.5 px-4 text-center">Status</th>
-                                <th class="py-3.5 px-4 text-right">Aksi Atomik</th>
+                                <th class="py-3 px-2.5 whitespace-nowrap">Kode</th>
+                                <th class="py-3 px-2.5 whitespace-nowrap">Buku & Kategori</th>
+                                <th class="py-3 px-2.5 whitespace-nowrap">Peminjam</th>
+                                <th class="py-3 px-2 whitespace-nowrap">Tgl Pinjam</th>
+                                <th class="py-3 px-2 whitespace-nowrap">Jatuh Tempo</th>
+                                <th class="py-3 px-2 whitespace-nowrap">Tgl Kembali</th>
+                                <th class="py-3 px-2 text-center whitespace-nowrap">Status</th>
+                                <th class="py-3 px-2.5 text-center whitespace-nowrap">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E8E1D5]">
@@ -109,41 +109,40 @@
                                 <tr class="hover:bg-[#FCFBF8] transition-colors">
                                     
                                     <!-- Kode Pinjam -->
-                                    <td class="py-3.5 px-4 font-mono font-bold text-[#312052]">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="material-symbols-outlined text-[15px] text-[#A89E8D]">receipt_long</span>
-                                            <span>{{ $pinjam->kode_pinjam }}</span>
-                                        </div>
+                                    <td class="py-3 px-2.5 font-mono font-bold text-[#312052] whitespace-nowrap text-[11px]">
+                                        {{ $pinjam->kode_pinjam }}
                                     </td>
 
                                     <!-- Buku & Kategori -->
-                                    <td class="py-3.5 px-4">
-                                        <div class="font-bold text-[#1E1A28] max-w-[220px] truncate" title="{{ $pinjam->buku->judul ?? '-' }}">
+                                    <td class="py-3 px-2.5">
+                                        <div class="font-bold text-[#1E1A28] max-w-[170px] xl:max-w-[220px] truncate" title="{{ $pinjam->buku->judul ?? '-' }}">
                                             {{ $pinjam->buku->judul ?? 'Buku Telah Dihapus' }}
                                         </div>
-                                        <div class="flex items-center gap-1.5 mt-0.5">
-                                            <span class="font-mono text-[10px] text-[#7A7265]">ISBN: {{ $pinjam->buku->isbn ?? '-' }}</span>
+                                        <div class="flex flex-col gap-0.5 mt-0.5">
+                                            <span class="font-mono text-[10px] text-[#7A7265] whitespace-nowrap">ISBN: {{ $pinjam->buku->isbn ?? '-' }}</span>
                                             @if($pinjam->buku && $pinjam->buku->kategori)
-                                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-[#FAF0E4] text-[#9A5B18] font-medium border border-[#F3E1C8]">
-                                                    {{ $pinjam->buku->kategori->nama_kategori }}
-                                                </span>
+                                                <div>
+                                                    <span class="inline-block text-[9px] px-1.5 py-0.5 rounded bg-[#FAF0E4] text-[#9A5B18] font-medium border border-[#F3E1C8] whitespace-nowrap">
+                                                        {{ $pinjam->buku->kategori->nama_kategori }}
+                                                    </span>
+                                                </div>
                                             @endif
                                         </div>
                                     </td>
 
                                     <!-- Peminjam -->
-                                    <td class="py-3.5 px-4">
-                                        <div class="font-semibold text-[#1E1A28]">{{ $pinjam->nama_peminjam }}</div>
+                                    <td class="py-3 px-2.5 whitespace-nowrap">
+                                        <div class="font-semibold text-[#1E1A28] text-xs">{{ $pinjam->nama_peminjam }}</div>
                                         <div class="font-mono text-[10px] text-[#7A7265] mt-0.5">NIM: {{ $pinjam->nim_peminjam }}</div>
                                     </td>
 
                                     <!-- Tgl Pinjam -->
-                                    <td class="py-3.5 px-4 text-[#554D40] whitespace-nowrap">
+                                    <td class="py-3 px-2 text-[#554D40] whitespace-nowrap text-xs">
                                         {{ \Carbon\Carbon::parse($pinjam->tanggal_pinjam)->translatedFormat('d M Y') }}
                                     </td>
 
                                     <!-- Jatuh Tempo -->
-                                    <td class="py-3.5 px-4 whitespace-nowrap">
+                                    <td class="py-3 px-2 whitespace-nowrap text-xs">
                                         <div>{{ \Carbon\Carbon::parse($pinjam->tanggal_jatuh_tempo)->translatedFormat('d M Y') }}</div>
                                         @if($pinjam->status === 'dipinjam')
                                             @php
@@ -152,26 +151,26 @@
                                                 $diff = $today->diffInDays($tempo, false);
                                             @endphp
                                             @if($diff < 0)
-                                                <span class="inline-flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-1.5 py-0.5 rounded mt-0.5">
-                                                    <i class="bi bi-exclamation-triangle-fill"></i> Terlambat {{ abs($diff) }} hari
+                                                <span class="inline-flex items-center gap-1 text-[9px] font-bold text-red-600 bg-red-50 border border-red-200 px-1 py-0.5 rounded mt-0.5">
+                                                    <i class="bi bi-exclamation-triangle-fill"></i> Terlambat {{ abs($diff) }}h
                                                 </span>
                                             @elseif($diff == 0)
-                                                <span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded mt-0.5">
-                                                    <i class="bi bi-clock-fill"></i> Hari ini batas akhir
+                                                <span class="inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1 py-0.5 rounded mt-0.5">
+                                                    <i class="bi bi-clock-fill"></i> Batas akhir
                                                 </span>
                                             @else
-                                                <span class="text-[10px] text-[#7A7265] mt-0.5 block">
-                                                    Sisa {{ $diff }} hari lagi
+                                                <span class="text-[9px] text-[#7A7265] mt-0.5 block">
+                                                    Sisa {{ $diff }} hari
                                                 </span>
                                             @endif
                                         @endif
                                     </td>
 
                                     <!-- Tgl Kembali -->
-                                    <td class="py-3.5 px-4 text-[#554D40] whitespace-nowrap">
+                                    <td class="py-3 px-2 text-[#554D40] whitespace-nowrap text-xs">
                                         @if($pinjam->tanggal_kembali)
                                             <span class="text-[#2D5F43] font-medium flex items-center gap-1">
-                                                <i class="bi bi-check-circle-fill text-[11px]"></i>
+                                                <i class="bi bi-check-circle-fill text-[10px]"></i>
                                                 {{ \Carbon\Carbon::parse($pinjam->tanggal_kembali)->translatedFormat('d M Y') }}
                                             </span>
                                         @else
@@ -180,28 +179,28 @@
                                     </td>
 
                                     <!-- Status -->
-                                    <td class="py-3.5 px-4 text-center whitespace-nowrap">
+                                    <td class="py-3 px-2 text-center whitespace-nowrap">
                                         @if($pinjam->status === 'dipinjam')
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FDF8F0] text-[#9A5B18] border border-[#F3E1C8]">
+                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FDF8F0] text-[#9A5B18] border border-[#F3E1C8]">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-[#B4681E] animate-pulse"></span>
                                                 Dipinjam
                                             </span>
                                         @else
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#F2F7F4] text-[#2D5F43] border border-[#CCE3D6]">
-                                                <i class="bi bi-check-lg text-[12px]"></i>
+                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F2F7F4] text-[#2D5F43] border border-[#CCE3D6]">
+                                                <i class="bi bi-check-lg text-[11px]"></i>
                                                 Dikembalikan
                                             </span>
                                         @endif
                                     </td>
 
                                     <!-- Aksi -->
-                                    <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                                    <td class="py-3 px-2.5 text-center whitespace-nowrap">
                                         @if($pinjam->status === 'dipinjam')
                                             <form action="{{ route('peminjaman.kembali', $pinjam->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin memproses pengembalian buku ini? Stok buku akan dikembalikan secara atomik.')">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="btn-del inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-xs hover:bg-[#25183E]">
-                                                    <span class="material-symbols-outlined text-[15px]">assignment_return</span>
+                                                <button type="submit" class="btn-del inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold shadow-xs hover:bg-[#25183E]">
+                                                    <span class="material-symbols-outlined text-[14px]">assignment_return</span>
                                                     <span>Kembalikan</span>
                                                 </button>
                                             </form>
